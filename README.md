@@ -1,11 +1,11 @@
 
 ### Description
 
-Book Store is a simple single page application (SPA) that lets you buy, rate and leave your comment for all the books that are available in the store. You can also see all of your purchased books history or create your own favorite books list.
+First Book is a simple single page application (SPA) that lets you maintain your daily client management. It helps you keep track of potential clients, your product rates and items for your current clients. It also maintains your transactional data if added any
 
 ### Tech
 
-Book Store uses a number of open source projects to work:
+First Book uses a number of open source projects to work:
 * [MongoDB](https://www.mongodb.com) - Free and open-source cross-platform document-oriented database
 * [Mongoose](http://mongoosejs.com/index.html) - Elegant MongoDB object modeling for NodeJS
 * [NodeJS](https://nodejs.org/en/) - Evented I/O for the backend
@@ -13,7 +13,7 @@ Book Store uses a number of open source projects to work:
 * [JSONWebToken](https://jwt.io) - Used for authorization
 * [Angular](https://angular.io) - Platform that makes it easy to build applications with the web
 
-The goal of this project is to show the core concepts of building SPA with ExpressJS and Angular. In this project I've used:
+The goal of this project aims to maintain daily verbal and financial transactions of businessmen, vendors and clients. In this project I've used
 
 * Wrapped each major feature into a module
 * Lazy-loading for most of the modules so the app can start faster
@@ -71,29 +71,37 @@ $ ng serve
 
 - Anonymous users
     - Login/Register
-    - View all books
-    - View books details, rating and comments
+    - Find Business Owners or Products
+    - Contact business owners
 
 - Authenticated users
-    - Buy books
-    - Rate books
-    - Comment books
-    - View user profiles
+    - Maintain Contacts
+    - Add/Delete Events on One or more dates
+    - Request for price details or other queries from Business Owners
+    - Place purchase request for queries
+    - Maintain purchase flow
+    - Comment on products
+    - View products of different businesses
     - View his own purchases history
-    - Create favorite books list
+    - Create favourite contact/product/vendor/client list
     - Can change his own avatar
+    - Send / Schedule reminders for self or contacts
 
-- Admin users
-    - Add books to the store
-    - Edit books
-    - Delete books
-    - Edit/Delete offensive user comments
+- Business Admin users
+    - Add products to the store
+    - Edit products
+    - Delete products
+    - Delete offensive user comments
     - Block/Unblock user from commenting
-    - Change unappropriate user avatars
+    - Communicate with user queries
+    - Manage purchase workflows
+    - Manage financial data
+    - Create favourite contact/product/vendor/client list
+    - Manage all work from dashboards
+    - Send / Schedule reminders for self or contacts
 
 ### Authors
 
-* [Zhelyan Radoev](https://github.com/jeliozver)
 * [Saurabh Kumar](https://github.com/skhacker105)
 
 ### License
