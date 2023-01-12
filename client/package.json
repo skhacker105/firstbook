@@ -1,5 +1,5 @@
 {
-  "name": "book-store-client",
+  "name": "first-book-client",
   "version": "0.0.0",
   "description": "Angular client for Book Store Web App",
   "author": "Jeliozver",
@@ -23,6 +23,10 @@
     "@angular/platform-browser": "^15.0.4",
     "@angular/platform-browser-dynamic": "^15.0.4",
     "@angular/router": "^15.0.4",
+    "@capacitor/android": "^4.6.1",
+    "@capacitor/cli": "^4.6.1",
+    "@capacitor/core": "^4.6.1",
+    "@capacitor/ios": "^4.6.1",
     "core-js": "^3.27.1",
     "jwt-decode": "^3.1.2",
     "ngx-bootstrap": "^10.2.0",
