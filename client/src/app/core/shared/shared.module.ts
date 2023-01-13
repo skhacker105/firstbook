@@ -19,6 +19,11 @@ import { IsIsbnDirective } from '../directives/is-isbn.directive';
 // Pipes
 import { CommentTimePipe } from '../pipes/comment-time.pipe';
 import { ShortenStringPipe } from '../pipes/shorten-string.pipe';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -34,7 +39,12 @@ import { ShortenStringPipe } from '../pipes/shorten-string.pipe';
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatInputModule,
+    MatIconModule,
+    MatMenuModule,
+    MatCardModule,
+    MatButtonModule
   ],
   exports: [
     CommentComponent,
@@ -44,7 +54,12 @@ import { ShortenStringPipe } from '../pipes/shorten-string.pipe';
     IsUrlDirective,
     IsIsbnDirective,
     CommentTimePipe,
-    ShortenStringPipe
+    ShortenStringPipe,
+    MatInputModule,
+    MatIconModule,
+    MatMenuModule,
+    MatCardModule,
+    MatButtonModule
   ]
 })
 export class SharedModule { }

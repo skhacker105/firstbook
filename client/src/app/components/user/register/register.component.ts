@@ -31,13 +31,12 @@ export class RegisterComponent implements OnInit {
       'username': new FormControl('', [
         Validators.required
       ]),
-      'avatar': new FormControl(''),
       'password': new FormControl('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(16)
       ]),
-      'confirmPassword': new FormControl(''),
+      'confirmPassword': new FormControl('', Validators.required),
       'email': new FormControl('', [
         Validators.required,
         Validators.pattern(emailRegex)
@@ -57,9 +56,9 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('username');
   }
 
-  get avatar(): AbstractControl {
-    return this.registerForm.get('avatar');
-  }
+  // get avatar(): AbstractControl {
+  //   return this.registerForm.get('avatar');
+  // }
 
   get password(): AbstractControl {
     return this.registerForm.get('password');

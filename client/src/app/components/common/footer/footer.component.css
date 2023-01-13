@@ -1,35 +1,9 @@
 footer {
-  background-color: #313532;
-  padding: 60px 20px;
+  background-color: #ffffff;
   text-transform: uppercase;
   font-size: 15px;
-}
-
-footer span {
-  margin-top: 30px;
-}
-
-.left {
-  float: left;
-}
-
-.right {
-  float: right;
-}
-
-.fab {
-  margin-left: 20px;
-  font-size: 60px;
-}
-
-.fa-js {
-  color: #F7E018;
-}
-
-.fa-angular {
-  color: #C3002F;
-}
-
-.fa-github {
-  color: #FFF;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 20px 10px;
 }

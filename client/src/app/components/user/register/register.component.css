@@ -1,0 +1,10 @@
+.login-form {
+    margin: 40% auto;
+    width: 90%;
+    max-width: 500px;
+    background-color: transparent;
+  }
+
+  .input-error {
+    color: #ffc6d4;
+  }
