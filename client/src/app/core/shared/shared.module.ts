@@ -24,6 +24,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatMenuModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatBadgeModule,
+    MatExpansionModule
   ],
   exports: [
     CommentComponent,
@@ -59,7 +63,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatMenuModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatBadgeModule,
+    MatExpansionModule
   ]
 })
 export class SharedModule { }

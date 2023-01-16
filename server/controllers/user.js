@@ -135,6 +135,7 @@ module.exports = {
 
         USER.findOne({ username: username })
             .populate('favoriteBooks')
+            .populate('favoriteContacts')
             .then((user) => {
                 if (!user) {
                     return res.status(400).json({
@@ -149,6 +150,7 @@ module.exports = {
                     avatar: user.avatar,
                     commentsCount: user.commentsCount,
                     favoriteBooks: user.favoriteBooks,
+                    favoriteContacts: user.favoriteContacts
                 };
 
                 return res.status(200).json({

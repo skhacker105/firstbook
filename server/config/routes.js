@@ -1,5 +1,6 @@
 const USER_CONTROLLER = require('../controllers/user');
 const BOOK_CONTROLLER = require('../controllers/book');
+const CONTACT_CONTROLLER = require('../controllers/contact');
 const COMMENT_CONTROLLER = require('../controllers/comment');
 const CART_CONTROLLER = require('../controllers/cart');
 const ERROR_CONTROLLER = require('../controllers/error');
@@ -27,6 +28,14 @@ module.exports = (APP) => {
     APP.delete('/book/delete/:bookId', AUTH.isInRole('Admin'), BOOK_CONTROLLER.delete);
     APP.post('/book/rate/:bookId', AUTH.isAuth, BOOK_CONTROLLER.rate);
     APP.post('/book/addToFavorites/:bookId', AUTH.isAuth, BOOK_CONTROLLER.addToFavorites);
+
+    APP.get('/contact/search', CONTACT_CONTROLLER.search);
+    APP.get('/contact/details/:contactId', CONTACT_CONTROLLER.getSingle);
+    APP.post('/contact/add', AUTH.isInRole('Admin'), CONTACT_CONTROLLER.add);
+    APP.put('/contact/edit/:contactId', AUTH.isInRole('Admin'), CONTACT_CONTROLLER.edit);
+    APP.delete('/contact/delete/:contactId', AUTH.isInRole('Admin'), CONTACT_CONTROLLER.delete);
+    APP.post('/contact/rate/:contactId', AUTH.isAuth, CONTACT_CONTROLLER.rate);
+    APP.post('/contact/addToFavorites/:contactId', AUTH.isAuth, CONTACT_CONTROLLER.addToFavorites);
 
     APP.get('/comment/getLatestFiveByUser/:userId', AUTH.isAuth, COMMENT_CONTROLLER.getLatestFiveByUser);
     APP.get('/comment/:bookId/:skipCount', COMMENT_CONTROLLER.getComments);

@@ -1,5 +1,5 @@
 {
-  "name": "book-store-server",
+  "name": "first-book-server",
   "version": "0.1.0",
   "description": "Express server for Book Store Web App",
   "main": "app.js",

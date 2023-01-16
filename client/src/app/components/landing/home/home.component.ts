@@ -17,30 +17,30 @@ const mostPurchasedBooksQuery = '?sort={"purchasesCount":-1}&limit=5';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  newestBooks: Book[];
-  bestRatedBooks: Book[];
-  mostPurchasedBooks: Book[];
+  // newestBooks: Book[];
+  // bestRatedBooks: Book[];
+  // mostPurchasedBooks: Book[];
 
   constructor(private bookService: BookService) { }
 
   ngOnInit(): void {
-    this.bookService
-      .search(newestBooksQuery)
-      .subscribe((res) => {
-        this.newestBooks = res.data;
-      });
+    // this.bookService
+    //   .search(newestBooksQuery)
+    //   .subscribe((res) => {
+    //     this.newestBooks = res.data;
+    //   });
 
-    this.bookService
-      .search(bestRatedBooksQuery)
-      .subscribe((res) => {
-        this.bestRatedBooks = res.data;
-      });
+    // this.bookService
+    //   .search(bestRatedBooksQuery)
+    //   .subscribe((res) => {
+    //     this.bestRatedBooks = res.data;
+    //   });
 
-    this.bookService
-      .search(mostPurchasedBooksQuery)
-      .subscribe((res) => {
-        this.mostPurchasedBooks = res.data;
-      });
+    // this.bookService
+    //   .search(mostPurchasedBooksQuery)
+    //   .subscribe((res) => {
+    //     this.mostPurchasedBooks = res.data;
+    //   });
   }
 
 }

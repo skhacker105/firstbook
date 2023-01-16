@@ -1,0 +1,6 @@
+.body-wrapper {
+    height: 100vh;
+}
+main {
+    height: calc(100% - 214px);
+}

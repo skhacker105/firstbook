@@ -6,6 +6,7 @@ import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
 // Components
 import { HomeComponent } from './components/landing/home/home.component';
+import { IsAdminGuard } from './core/guards/is-admin.guard';
 
 const routes: Routes = [
   {
@@ -15,6 +16,11 @@ const routes: Routes = [
   {
     path: 'book',
     loadChildren: () => import('./components/book/book.module').then(m => m.BookModule)
+  },
+  {
+    path: 'contact',
+    canActivateChild: [IsAdminGuard],
+    loadChildren: () => import('./components/contact/contact.module').then(m => m.ContactModule)
   },
   {
     path: 'home',
