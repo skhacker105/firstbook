@@ -13,7 +13,7 @@ const routes: Routes = [
     component: ContactStoreComponent
   },
   // {
-  //   path: 'details/:bookId',
+  //   path: 'details/:contactId',
   //   component: BookDetailsComponent
   // },
   // {
@@ -22,12 +22,12 @@ const routes: Routes = [
   //   component: BookCreateComponent
   // },
   // {
-  //   path: 'edit/:bookId',
+  //   path: 'edit/:contactId',
   //   canActivate: [IsAdminGuard],
   //   component: BookEditComponent
   // },
   // {
-  //   path: 'delete/:bookId',
+  //   path: 'delete/:contactId',
   //   canActivate: [IsAdminGuard],
   //   component: BookDeleteComponent
   // }

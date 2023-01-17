@@ -26,6 +26,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     IsUrlDirective,
     IsIsbnDirective,
     CommentTimePipe,
-    ShortenStringPipe
+    ShortenStringPipe,
+    ContactComponent
   ],
   imports: [
     CommonModule,
@@ -59,6 +61,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     IsIsbnDirective,
     CommentTimePipe,
     ShortenStringPipe,
+    ContactComponent,
     MatInputModule,
     MatIconModule,
     MatMenuModule,

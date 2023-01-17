@@ -10,8 +10,9 @@ import { HttpClient } from '@angular/common/http';
 // Models
 import { ServerResponse } from '../models/server-response.model';
 import { Comment } from '../models/comment.model';
+import { environment } from 'src/environments/environment';
 
-const baseUrl = 'http://localhost:8000/comment';
+const baseUrl = environment.api+ 'comment';
 const addCommentEndpoint = '/add/';
 const editCommentEndpoint = '/edit/';
 const deleteCommentEndpoint = '/delete/';

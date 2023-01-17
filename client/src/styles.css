@@ -3,22 +3,21 @@
 @import url('https://fonts.googleapis.com/css?family=Wendy+One');
 @import url('https://fonts.googleapis.com/css?family=Shojumaru');
 @import url('https://use.fontawesome.com/releases/v5.1.0/css/all.css');
-/* input[type='number'] {
-  -moz-appearance: textfield;
-}
-
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-} */
 
 body {
   font-family: 'Open Sans', sans-serif;
   font-size: 22px;
-  text-align: center;  
+  text-align: center; 
   background-image: linear-gradient(to bottom, #3f51b5, #844cb6, #b743ac, #e13c9a, #ff4081);
 }
 
 /* Forms Start */
+.add-entity{
+  position: fixed;
+  z-index: 100;
+  right: 10px;
+  bottom: 70px;
+}
 
 .form {
   width: 100%;
@@ -55,25 +54,6 @@ body {
 .login-submit {
   width: 100%;
 }
-
-/* .submit {
-  outline: none;
-  border: none;
-  width: 100%;
-  max-width: 500px;
-  padding: 10px;
-  border-radius: 5px;
-  background: #927057;
-  color: #D5C395;
-  font-size: 1.5em;
-  font-weight: 900;
-} */
-
-/* .submit:hover {
-  cursor: pointer;
-  color: #FAE7B0;
-  box-shadow: 0 0 3px #FFF;
-} */
 
 .form-field {
   text-align: left;
@@ -176,7 +156,7 @@ body {
 }
 
 .no-results {
-  margin: 12em 0;
+  margin: -3em 0;
 }
 
 html,

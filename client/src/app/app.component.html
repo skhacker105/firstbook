@@ -5,3 +5,10 @@
   </main>
   <app-footer></app-footer>
 </div>
+<ng-container *ngIf="addEntity">
+  <div class="add-entity">
+    <button mat-mini-fab color="primary" (click)="rerouteToAddEntity()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</ng-container>
