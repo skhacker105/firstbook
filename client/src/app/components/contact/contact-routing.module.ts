@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ContactAddEditComponent } from './contact-add-edit/contact-add-edit.component';
 import { ContactStoreComponent } from './contact-store/contact-store.component';
 
 const routes: Routes = [
@@ -16,11 +17,10 @@ const routes: Routes = [
   //   path: 'details/:contactId',
   //   component: BookDetailsComponent
   // },
-  // {
-  //   path: 'create',
-  //   canActivate: [IsAdminGuard],
-  //   component: BookCreateComponent
-  // },
+  {
+    path: 'create',
+    component: ContactAddEditComponent
+  },
   // {
   //   path: 'edit/:contactId',
   //   canActivate: [IsAdminGuard],

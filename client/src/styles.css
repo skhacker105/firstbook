@@ -7,16 +7,20 @@
 body {
   font-family: 'Open Sans', sans-serif;
   font-size: 22px;
-  text-align: center; 
+  text-align: center;
   background-image: linear-gradient(to bottom, #3f51b5, #844cb6, #b743ac, #e13c9a, #ff4081);
 }
 
 /* Forms Start */
-.add-entity{
+.add-entity {
   position: fixed;
   z-index: 100;
   right: 10px;
   bottom: 70px;
+}
+
+.entity {
+  background-image: linear-gradient(to bottom, #aebbff, #cfbcf8, #e6bfee, #f6c4e5, #ffccde);
 }
 
 .form {
@@ -27,8 +31,6 @@ body {
   flex: 1 1 auto;
 }
 
-.avatar,
-.title,
 .author,
 .cover,
 .genre,
@@ -51,8 +53,22 @@ body {
 .username,
 .email,
 .pass,
+.title,
 .login-submit {
   width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .flexible-input {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .flexible-input {
+    width: 50%;
+    padding: 1px;
+  }
 }
 
 .form-field {

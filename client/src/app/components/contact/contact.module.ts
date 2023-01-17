@@ -4,17 +4,21 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ContactRoutingModule } from './contact-routing.module';
 import { ContactStoreComponent } from './contact-store/contact-store.component';
 import { SharedModule } from 'src/app/core/shared/shared.module';
+import { ContactAddEditComponent } from './contact-add-edit/contact-add-edit.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-    ContactStoreComponent
+    ContactStoreComponent,
+    ContactAddEditComponent
   ],
   imports: [
     CommonModule,
-    ContactRoutingModule,
+    ReactiveFormsModule,
     NgxPaginationModule,
-    SharedModule
+    SharedModule,
+    ContactRoutingModule
   ]
 })
 export class ContactModule { }

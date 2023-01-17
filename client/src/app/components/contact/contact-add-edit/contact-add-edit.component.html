@@ -1,0 +1,64 @@
+<ng-container *ngIf="createBookForm && title && firstName && lastName && type && contact1 && contact2 && address">
+    <form #formDir="ngForm" [formGroup]="createBookForm" (ngSubmit)="onSubmit()">
+        <mat-card class="contact-card entity">
+            <mat-card-header>
+                <mat-card-title>New Contact <br><br></mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <!-- Title -->
+                <mat-form-field class="flexible-input">
+                    <mat-label>Title</mat-label>
+                    <input type="text" matInput formControlName="title" placeholder="Mr./Mrs./Miss/Ms">
+                    <mat-error *ngIf="title.hasError('required')">
+                        Title is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- First Name -->
+                <mat-form-field class="flexible-input">
+                    <mat-label>First name</mat-label>
+                    <input type="text" matInput formControlName="firstName">
+                    <mat-error *ngIf="firstName.hasError('required')">
+                        Name is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Last Name -->
+                <mat-form-field class="flexible-input">
+                    <mat-label>Last Name</mat-label>
+                    <input type="text" matInput formControlName="lastName">
+                </mat-form-field>
+
+                <!-- type -->
+                <mat-form-field class="flexible-input">
+                    <mat-label>Type</mat-label>
+                    <input type="text" matInput formControlName="type">
+                </mat-form-field>
+
+                <!-- contact1 -->
+                <mat-form-field class="flexible-input">
+                    <mat-label>Contact Number 1</mat-label>
+                    <input type="text" matInput formControlName="contact1">
+                </mat-form-field>
+
+                <!-- contact2 -->
+                <mat-form-field class="flexible-input">
+                    <mat-label>Contact Number 2</mat-label>
+                    <input type="text" matInput formControlName="contact2">
+                </mat-form-field>
+
+                <!-- address -->
+                <mat-form-field class="flexible-input">
+                    <mat-label>Address</mat-label>
+                    <input type="text" matInput formControlName="address">
+                </mat-form-field>
+            </mat-card-content>
+            
+            <mat-card-actions align="end">
+                <button mat-raised-button routerLink="/contact">Cancel</button>
+                <button mat-raised-button color="primary">Submit</button>
+            </mat-card-actions>
+        </mat-card>
+
+    </form>
+</ng-container>

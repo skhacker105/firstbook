@@ -6,7 +6,7 @@ import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
 // Components
 import { HomeComponent } from './components/landing/home/home.component';
-import { IsAdminGuard } from './core/guards/is-admin.guard';
+import { IsAuthenticatedGuard } from './core/guards/is-authenticated.guard';
 
 const routes: Routes = [
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'contact',
-    canActivate: [IsAdminGuard],
+    canActivate: [IsAuthenticatedGuard],
     loadChildren: () => import('./components/contact/contact.module').then(m => m.ContactModule)
   },
   {
