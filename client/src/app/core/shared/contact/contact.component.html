@@ -1,18 +1,25 @@
-<mat-card class="contact-card entity">
-    <mat-card-header>
-        <div mat-card-avatar class="contact-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        <p>
-            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-            A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-            bred for hunting.
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-    </mat-card-actions>
-</mat-card>
+<mat-expansion-panel class="entity" *ngIf="contact">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            <sup>{{ contact.title }}</sup> {{ contact.firstName}} {{ contact.lastName}}
+        </mat-panel-title>
+        <mat-panel-description>
+            {{ contact.type }}
+            <!-- <mat-icon>date_range</mat-icon> -->
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-grid-list cols="4" rowHeight="90px">
+        <mat-grid-tile *ngFor="let action of actions">
+            <div class="action" [ngClass]="{
+                'delete-action': action.isDelete
+            }">
+                <button mat-icon-button>
+                    <mat-icon>{{action.maticon}}</mat-icon>
+                </button><br>
+                {{action.display}}
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+</mat-expansion-panel>

@@ -4,10 +4,19 @@
 @import url('https://fonts.googleapis.com/css?family=Shojumaru');
 @import url('https://use.fontawesome.com/releases/v5.1.0/css/all.css');
 
+
 body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  min-height: 100%;
+
   font-family: 'Open Sans', sans-serif;
   font-size: 22px;
-  text-align: center;
   background-image: linear-gradient(to bottom, #3f51b5, #844cb6, #b743ac, #e13c9a, #ff4081);
 }
 
@@ -173,14 +182,4 @@ body {
 
 .no-results {
   margin: -3em 0;
-}
-
-html,
-body {
-  height: 100vh;
-}
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

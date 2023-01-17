@@ -6,10 +6,13 @@
     </pagination-controls>
   </div>
   <div class="contacts-store">
-    <app-contact *ngFor="let contact of contacts | paginate: {
+    <ng-container *ngFor="let contact of contacts | paginate: {
       itemsPerPage: pageSize,
       currentPage: currentPage,
-      totalItems: total }" [contact]="contact"></app-contact>
+      totalItems: total }">
+      <app-contact [contact]="contact"></app-contact>
+      <br>
+    </ng-container>
   </div>
   <div *ngIf="contacts.length === 0" class="no-results">
     <img src="https://i.imgur.com/KRVihMq.png" alt="no-item-found">

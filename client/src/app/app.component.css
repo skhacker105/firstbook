@@ -1,6 +1,19 @@
 .body-wrapper {
-    height: 100vh;
+    margin: 0;
+    height: 100%;
+    min-height: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
 }
+
 main {
-    height: calc(100% - 214px);
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    flex: auto;
+  }
+
+app-header,
+app-footer {
+  flex: none;
 }

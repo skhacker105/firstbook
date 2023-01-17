@@ -27,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ContactComponent } from './contact/contact.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ContactComponent } from './contact/contact.component';
     MatCardModule,
     MatButtonModule,
     MatBadgeModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatGridListModule
   ],
   exports: [
     CommentComponent,
@@ -68,7 +70,8 @@ import { ContactComponent } from './contact/contact.component';
     MatCardModule,
     MatButtonModule,
     MatBadgeModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatGridListModule
   ]
 })
 export class SharedModule { }
