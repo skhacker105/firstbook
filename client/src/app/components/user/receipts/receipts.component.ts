@@ -13,7 +13,7 @@ import { Receipt } from '../../../core/models/receipt.model';
   styleUrls: ['./receipts.component.css']
 })
 export class ReceiptsComponent implements OnInit {
-  receipts: Receipt[];
+  receipts: Receipt[] = [];
 
   constructor(private userService: UserService) { }
 
@@ -21,7 +21,7 @@ export class ReceiptsComponent implements OnInit {
     this.userService
       .getPurchaseHistory()
       .subscribe((res) => {
-        this.receipts = res.data;
+        this.receipts = res.data ? res.data : [];
       });
   }
 

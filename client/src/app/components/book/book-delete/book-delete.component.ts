@@ -16,8 +16,8 @@ import { BookService } from '../../../core/services/book.service';
   styleUrls: ['./book-delete.component.css']
 })
 export class BookDeleteComponent implements OnInit {
-  deleteBookForm: FormGroup;
-  id: string;
+  deleteBookForm: FormGroup | undefined;
+  id: string | null | undefined;
 
   constructor(
     private router: Router,
@@ -29,9 +29,11 @@ export class BookDeleteComponent implements OnInit {
     this.initForm();
     this.id = this.route.snapshot.paramMap.get('bookId');
 
+    if (!this.id) return;
     this.bookService
       .getSingleBook(this.id)
       .subscribe((res) => {
+        if (!this.deleteBookForm) return;
         this.deleteBookForm.patchValue({ ...res.data });
       });
   }
@@ -59,7 +61,8 @@ export class BookDeleteComponent implements OnInit {
   }
 
   onSubmit(): void {
-   this.bookService
+    if (!this.id) return;
+    this.bookService
       .deleteBook(this.id)
       .subscribe(() => {
         this.router.navigate(['/home']);

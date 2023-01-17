@@ -33,7 +33,7 @@ export class CartService {
     return this.http.get<ServerResponse<Cart>>(baseUrl)
       .pipe(
         map(res => {
-          res.data.books.map(b => b.qty = 1);
+          res.data?.books.map(b => b.qty = 1);
           return res;
         })
       );

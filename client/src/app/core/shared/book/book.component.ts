@@ -10,5 +10,5 @@ import { Book } from '../../models/book.model';
   styleUrls: ['./book.component.css']
 })
 export class BookComponent {
-  @Input('book') book: Book;
+  @Input('book') book: Book | undefined;
 }

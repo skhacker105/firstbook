@@ -10,7 +10,7 @@
     <span class="fa fa-star {{stars[3]}}" (click)="rateBook(4)" (mouseenter)="calcRating(4)" (mouseleave)="resetRating()"></span>
     <span class="fa fa-star {{stars[4]}}" (click)="rateBook(5)" (mouseenter)="calcRating(5)" (mouseleave)="resetRating()"></span>
     <p>based on {{book.ratedCount}} ratings</p>
-    <p>{{book.comments.length}} comments</p>
+    <p>{{book.comments?.length}} comments</p>
     <p>Author: {{book.author}}</p>
     <p>Genre: {{book.genre}}</p>
     <p>Relsease Year: {{book.year}}</p>

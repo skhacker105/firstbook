@@ -8,5 +8,5 @@ import { Contact } from 'src/app/core/models/contact.model';
 })
 export class ContactStoreComponent {
 
-  contacts: Contact[];
+  contacts: Contact[] = [];
 }

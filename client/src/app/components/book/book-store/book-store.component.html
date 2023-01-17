@@ -2,10 +2,10 @@
   <div class="top">
     <pagination-controls
       (pageChange)="pageChanged($event)"
-      maxSize="{{maxPages}}"
-      directionLinks="true"
-      autoHide="true"
-      responsive="true"
+      [maxSize]="maxPages"
+      [directionLinks]="true"
+      [autoHide]="true"
+      [responsive]="true"
       previousLabel="Previous"
       nextLabel="Next"
       screenReaderPaginationLabel="Pagination"
@@ -25,10 +25,10 @@
   <div class="bottom">
     <pagination-controls
       (pageChange)="pageChanged($event)"
-      maxSize="{{maxPages}}"
-      directionLinks="true"
-      autoHide="true"
-      responsive="true"
+      [maxSize]="maxPages"
+      [directionLinks]="true"
+      [autoHide]="true"
+      [responsive]="true"
       previousLabel="Previous"
       nextLabel="Next"
       screenReaderPaginationLabel="Pagination"

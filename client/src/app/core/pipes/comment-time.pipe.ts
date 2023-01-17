@@ -35,7 +35,7 @@ function calcTime(dateIsoFormat: string) {
 
   return diff + ' year' + pluralize(diff);
 
-  function pluralize(value) {
+  function pluralize(value: number) {
     if (value !== 1) {
       return 's';
     } else {

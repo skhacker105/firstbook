@@ -20,14 +20,18 @@ import { CartService } from '../../../core/services/cart.service';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit, OnDestroy {
-  searchForm: FormGroup;
-  isLoggedSub$: Subscription;
-  cartStatusSub$: Subscription;
-  username: string;
-  isLogged: boolean;
-  isAdmin: boolean;
-  statusChecker: number;
-  cartItems: number;
+  searchForm: FormGroup = new FormGroup({
+    'query': new FormControl('', [
+      Validators.required
+    ])
+  });
+  isLoggedSub$: Subscription | undefined;
+  cartStatusSub$: Subscription | undefined;
+  username: string | undefined;
+  isLogged: boolean | undefined;
+  isAdmin: boolean | undefined;
+  statusChecker: number | undefined;
+  cartItems: number | undefined;
 
   constructor(
     private router: Router,
@@ -38,7 +42,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.statusChecker = window.setInterval(() => this.tick(), 600000);
     this.isLogged = this.helperService.isLoggedIn();
-    this.initForm();
+    // this.initForm();
     if (this.isLogged) {
       this.getCartSize();
     }
@@ -53,9 +57,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .cartStatus
       .subscribe((data) => {
         if (data === 'add') {
-          this.cartItems++;
+          this.cartItems ? this.cartItems++ : this.cartItems = 1;
         } else if (data === 'remove') {
-          this.cartItems--;
+          this.cartItems ? this.cartItems-- : this.cartItems = 0;
         } else if (data === 'updateStatus') {
           this.getCartSize();
         }
@@ -64,17 +68,17 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     window.clearInterval(this.statusChecker);
-    this.isLoggedSub$.unsubscribe();
-    this.cartStatusSub$.unsubscribe();
+    this.isLoggedSub$ ? this.isLoggedSub$.unsubscribe() : null;
+    this.cartStatusSub$ ? this.cartStatusSub$.unsubscribe() : null;
   }
 
-  initForm(): void {
-    this.searchForm = new FormGroup({
-      'query': new FormControl('', [
-        Validators.required
-      ])
-    });
-  }
+  // initForm(): void {
+  //   this.searchForm = new FormGroup({
+  //     'query': new FormControl('', [
+  //       Validators.required
+  //     ])
+  //   });
+  // }
 
   onSubmit(): void {
     const query: string = this.searchForm.value.query.trim();
@@ -89,7 +93,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   isUserLogged(): boolean {
-    return this.isLogged;
+    return this.isLogged ? this.isLogged : false;
   }
 
   isUserAdmin(): boolean {
@@ -110,7 +114,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.cartService
       .getCartSize()
       .subscribe((res) => {
-        this.cartItems = res.data;
+        this.cartItems = res.data ? res.data : 0;
       });
   }
 

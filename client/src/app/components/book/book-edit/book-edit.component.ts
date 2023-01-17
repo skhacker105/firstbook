@@ -20,8 +20,8 @@ import { isIsbnValidator } from '../../../core/directives/is-isbn.directive';
   styleUrls: ['./book-edit.component.css']
 })
 export class BookEditComponent implements OnInit {
-  editBookForm: FormGroup;
-  id: string;
+  editBookForm: FormGroup | undefined;
+  id: string | null | undefined;
 
   constructor(
     private router: Router,
@@ -33,10 +33,11 @@ export class BookEditComponent implements OnInit {
     this.initForm();
     this.id = this.route.snapshot.paramMap.get('bookId');
 
+    if (!this.id) return;
     this.bookService
       .getSingleBook(this.id)
       .subscribe((res) => {
-        this.editBookForm.patchValue({ ...res.data });
+        this.editBookForm ? this.editBookForm.patchValue({ ...res.data }) : null;
       });
   }
 
@@ -78,47 +79,48 @@ export class BookEditComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (!this.id || !this.editBookForm?.value) return;
     this.bookService
       .editBook(this.id, this.editBookForm.value)
       .subscribe((res) => {
-        this.router.navigate([`/book/details/${res.data._id}`]);
+        res.data ? this.router.navigate([`/book/details/${res.data._id}`]) : null;
       });
   }
 
-  get title(): AbstractControl {
-    return this.editBookForm.get('title');
+  get title(): AbstractControl | null | undefined {
+    return this.editBookForm?.get('title');
   }
 
-  get author(): AbstractControl {
-    return this.editBookForm.get('author');
+  get author(): AbstractControl | null | undefined {
+    return this.editBookForm?.get('author');
   }
 
-  get genre(): AbstractControl {
-    return this.editBookForm.get('genre');
+  get genre(): AbstractControl | null | undefined {
+    return this.editBookForm?.get('genre');
   }
 
-  get year(): AbstractControl {
-    return this.editBookForm.get('year');
+  get year(): AbstractControl | null | undefined {
+    return this.editBookForm?.get('year');
   }
 
-  get description(): AbstractControl {
-    return this.editBookForm.get('description');
+  get description(): AbstractControl | null | undefined {
+    return this.editBookForm?.get('description');
   }
 
-  get cover(): AbstractControl {
-    return this.editBookForm.get('cover');
+  get cover(): AbstractControl | null | undefined {
+    return this.editBookForm?.get('cover');
   }
 
-  get isbn(): AbstractControl {
-    return this.editBookForm.get('isbn');
+  get isbn(): AbstractControl | null | undefined {
+    return this.editBookForm?.get('isbn');
   }
 
-  get pagesCount(): AbstractControl {
-    return this.editBookForm.get('pagesCount');
+  get pagesCount(): AbstractControl | null | undefined {
+    return this.editBookForm?.get('pagesCount');
   }
 
-  get price(): AbstractControl {
-    return this.editBookForm.get('price');
+  get price(): AbstractControl | null | undefined {
+    return this.editBookForm?.get('price');
   }
 
 }

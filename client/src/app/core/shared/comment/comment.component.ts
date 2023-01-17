@@ -16,18 +16,20 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./comment.component.css']
 })
 export class CommentComponent implements OnInit {
-  @Input('bookId') bookId: string;
-  @Input('isLogged') isLogged: boolean;
-  @Input('isAdmin') isAdmin: boolean;
-  @Input('userId') userId: string;
-  commentForm: FormGroup;
-  commentModalRef: BsModalRef;
-  removeModalRef: BsModalRef;
+  @Input('bookId') bookId: string | undefined | null;
+  @Input('isLogged') isLogged: boolean | undefined = false;
+  @Input('isAdmin') isAdmin: boolean | undefined = false;
+  @Input('userId') userId: string | undefined | null;
+  commentForm: FormGroup = new FormGroup({
+    'content': new FormControl('', Validators.required)
+  });;
+  commentModalRef: BsModalRef | undefined;
+  removeModalRef: BsModalRef | undefined;
   comments: Comment[] = [];
-  isFromEdit: boolean;
-  lastEditId: string;
-  lastDeleteId: string;
-  action: string;
+  isFromEdit: boolean = false;
+  lastEditId: string | undefined;
+  lastDeleteId: string | undefined;
+  action: string | undefined;
 
   constructor(
     private commentService: CommentService,
@@ -35,14 +37,12 @@ export class CommentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.commentForm = new FormGroup({
-      'content': new FormControl('', Validators.required)
-    });
+    if (!this.bookId) return;
 
     this.commentService
       .getComments(this.bookId, this.comments.length.toString())
       .subscribe((res) => {
-        this.comments = res.data;
+        this.comments = res.data ? res.data : [];
       });
   }
 
@@ -88,26 +88,30 @@ export class CommentComponent implements OnInit {
   }
 
   loadMoreComments(): void {
+    if (!this.bookId) return;
     this.commentService
       .getComments(this.bookId, this.comments.length.toString())
       .subscribe((res) => {
-        if (res.data.length !== 0) {
+        if (res.data && res.data?.length !== 0) {
           this.comments.splice(this.comments.length, 0, ...res.data);
         }
       });
   }
 
   createComment(): void {
+    if (!this.bookId) return;
     this.commentService
       .addComment(this.bookId, this.commentForm.value)
       .subscribe((res) => {
-        this.comments.unshift(res.data);
+        if (res.data)
+          this.comments.unshift(res.data);
       });
 
     this.commentForm.reset();
   }
 
   modifyComment(): void {
+    if (!this.lastEditId) return;
     const editedContent = this.commentForm.value.content;
     this.commentService
       .editComment(this.lastEditId, this.commentForm.value)
@@ -124,6 +128,7 @@ export class CommentComponent implements OnInit {
   }
 
   removeComment(): void {
+    if (!this.removeModalRef || !this.lastDeleteId) return;
     this.removeModalRef.hide();
     const delId = this.lastDeleteId;
     this.commentService

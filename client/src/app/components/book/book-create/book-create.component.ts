@@ -20,7 +20,7 @@ import { isIsbnValidator } from '../../../core/directives/is-isbn.directive';
   styleUrls: ['./book-create.component.css']
 })
 export class BookCreateComponent implements OnInit {
-  createBookForm: FormGroup;
+  createBookForm: FormGroup | undefined;
 
   constructor(
     private router: Router,
@@ -65,47 +65,49 @@ export class BookCreateComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (!this.createBookForm) return;
     this.bookService
       .createBook(this.createBookForm.value)
       .subscribe((res) => {
+        if (!res.data) return;
         this.router.navigate([`/book/details/${res.data._id}`]);
       });
   }
 
-  get title(): AbstractControl {
-    return this.createBookForm.get('title');
+  get title(): AbstractControl | null | undefined {
+    return this.createBookForm?.get('title');
   }
 
-  get author(): AbstractControl {
-    return this.createBookForm.get('author');
+  get author(): AbstractControl | null | undefined {
+    return this.createBookForm?.get('author');
   }
 
-  get genre(): AbstractControl {
-    return this.createBookForm.get('genre');
+  get genre(): AbstractControl | null | undefined {
+    return this.createBookForm?.get('genre');
   }
 
-  get year(): AbstractControl {
-    return this.createBookForm.get('year');
+  get year(): AbstractControl | null | undefined {
+    return this.createBookForm?.get('year');
   }
 
-  get description(): AbstractControl {
-    return this.createBookForm.get('description');
+  get description(): AbstractControl | null | undefined {
+    return this.createBookForm?.get('description');
   }
 
-  get cover(): AbstractControl {
-    return this.createBookForm.get('cover');
+  get cover(): AbstractControl | null | undefined {
+    return this.createBookForm?.get('cover');
   }
 
-  get isbn(): AbstractControl {
-    return this.createBookForm.get('isbn');
+  get isbn(): AbstractControl | null | undefined {
+    return this.createBookForm?.get('isbn');
   }
 
-  get pagesCount(): AbstractControl {
-    return this.createBookForm.get('pagesCount');
+  get pagesCount(): AbstractControl | null | undefined {
+    return this.createBookForm?.get('pagesCount');
   }
 
-  get price(): AbstractControl {
-    return this.createBookForm.get('price');
+  get price(): AbstractControl | null | undefined {
+    return this.createBookForm?.get('price');
   }
 
 }

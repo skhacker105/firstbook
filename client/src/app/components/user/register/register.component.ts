@@ -19,7 +19,21 @@ const emailRegex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  registerForm: FormGroup;
+  registerForm: FormGroup = new FormGroup({
+    'username': new FormControl('', [
+      Validators.required
+    ]),
+    'password': new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(16)
+    ]),
+    'confirmPassword': new FormControl('', Validators.required),
+    'email': new FormControl('', [
+      Validators.required,
+      Validators.pattern(emailRegex)
+    ])
+  }, { validators: mustMatchValidator });;
 
   constructor(
     private userService: UserService,
@@ -27,21 +41,7 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.registerForm = new FormGroup({
-      'username': new FormControl('', [
-        Validators.required
-      ]),
-      'password': new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(16)
-      ]),
-      'confirmPassword': new FormControl('', Validators.required),
-      'email': new FormControl('', [
-        Validators.required,
-        Validators.pattern(emailRegex)
-      ])
-    }, { validators: mustMatchValidator });
+    // this.registerForm = 
   }
 
   onSubmit(): void {
@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  get username(): AbstractControl {
+  get username(): AbstractControl | null {
     return this.registerForm.get('username');
   }
 
@@ -60,15 +60,15 @@ export class RegisterComponent implements OnInit {
   //   return this.registerForm.get('avatar');
   // }
 
-  get password(): AbstractControl {
+  get password(): AbstractControl | null {
     return this.registerForm.get('password');
   }
 
-  get confirmPassword(): AbstractControl {
+  get confirmPassword(): AbstractControl | null {
     return this.registerForm.get('confirmPassword');
   }
 
-  get email(): AbstractControl {
+  get email(): AbstractControl | null {
     return this.registerForm.get('email');
   }
 

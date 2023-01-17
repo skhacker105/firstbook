@@ -28,12 +28,17 @@ import { Comment } from '../../../core/models/comment.model';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  user: User;
-  comments: Comment[];
-  avatarForm: FormGroup;
-  routeChangeSub$: Subscription;
-  currentUserId: string;
-  isAdmin: boolean;
+  user: User | undefined;
+  comments: Comment[] = [];
+  avatarForm: FormGroup = new FormGroup({
+    'avatar': new FormControl('', [
+      Validators.required,
+      isUrlValidator
+    ])
+  });;
+  routeChangeSub$: Subscription | undefined;
+  currentUserId: string | undefined;
+  isAdmin: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,23 +65,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.isAdmin = this.helperService.isAdmin();
     this.currentUserId = this.helperService.getProfile().id;
 
-    this.avatarForm = new FormGroup({
-      'avatar': new FormControl('', [
-        Validators.required,
-        isUrlValidator
-      ])
-    });
   }
 
   ngOnDestroy(): void {
-    this.routeChangeSub$.unsubscribe();
+    this.routeChangeSub$ ? this.routeChangeSub$.unsubscribe() : null;
   }
 
   getComments(): void {
+    if (!this.user?.id) return;
     this.commentService
       .getLatestFiveComments(this.user.id)
       .subscribe((res) => {
-        this.comments = res.data;
+        this.comments = res.data ? res.data : [];
       });
   }
 
@@ -85,7 +85,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   changeUserAvatar(): void {
-    const newAvatar = this.avatar.value;
+    if (!this.user?.id) return;
+    const newAvatar = this.avatar?.value;
 
     const payload = {
       id: this.user.id,
@@ -95,7 +96,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.userService
       .changeAvatar(payload)
       .subscribe(() => {
-        this.user.avatar = newAvatar;
+        if (this.user?.avatar)
+          this.user.avatar = newAvatar;
         this.avatarForm.reset();
       });
   }
@@ -112,7 +114,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  get avatar(): AbstractControl {
+  get avatar(): AbstractControl | null {
     return this.avatarForm.get('avatar');
   }
 

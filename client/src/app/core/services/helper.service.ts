@@ -15,7 +15,7 @@ export class HelperService {
   searchQuery = new Subject<string>();
   cartStatus = new Subject<string>();
 
-  saveSession(token): void {
+  saveSession(token: any): void {
     localStorage.setItem('token', token);
   }
 
@@ -62,6 +62,7 @@ export class HelperService {
   }
 
   getToken(): string {
-    return localStorage.getItem('token');
+    let val = localStorage.getItem('token');
+    return val ? val : '';
   }
 }

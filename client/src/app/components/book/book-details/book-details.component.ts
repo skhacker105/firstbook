@@ -18,14 +18,14 @@ import { Book } from '../../../core/models/book.model';
   styleUrls: ['./book-details.component.css']
 })
 export class BookDetailsComponent implements OnInit {
-  book: Book;
-  bookId: string;
-  userId: string;
-  isLogged: boolean;
-  isAdmin: boolean;
-  isRated: boolean;
-  isAdded: boolean;
-  isBought: boolean;
+  book: Book | undefined;
+  bookId: string | undefined | null;
+  userId: string | undefined;
+  isLogged: boolean | undefined;
+  isAdmin: boolean | undefined;
+  isRated: boolean | undefined;
+  isAdded: boolean | undefined;
+  isBought: boolean | undefined;
   stars = ['', '', '', '', ''];
 
   constructor(
@@ -42,15 +42,18 @@ export class BookDetailsComponent implements OnInit {
     this.isAdmin = this.helperService.isAdmin();
     this.userId = this.helperService.getProfile().id;
 
+    if (!this.bookId) return;
     this.bookService
       .getSingleBook(this.bookId)
       .subscribe((res) => {
         this.book = res.data;
-        this.calcRating(this.book.currentRating);
+        if (this.book?.currentRating)
+          this.calcRating(this.book.currentRating);
       });
   }
 
   buyBook(): void {
+    if (!this.bookId) return;
     this.cartService
       .addToCart(this.bookId)
       .subscribe(() => {
@@ -62,6 +65,7 @@ export class BookDetailsComponent implements OnInit {
   }
 
   addToFavorites(): void {
+    if (!this.bookId) return;
     this.bookService
       .addToFavourites(this.bookId)
       .subscribe(() => {
@@ -72,14 +76,16 @@ export class BookDetailsComponent implements OnInit {
   }
 
   rateBook(rating: number): void {
+    if (!this.bookId) return;
     if (!this.isRated) {
       this.isRated = true;
       this.bookService
         .rateBook(this.bookId, { rating: rating })
         .subscribe((res) => {
+          if (!this.book || !res.data) return;
           this.book.currentRating = res.data.currentRating;
-          this.book.ratedCount++;
-          this.calcRating(this.book.currentRating);
+          this.book.ratedCount ? this.book.ratedCount++ : this.book.ratedCount = 0;
+          this.book.currentRating ? this.calcRating(this.book.currentRating) : null;
         });
     }
   }
@@ -93,6 +99,7 @@ export class BookDetailsComponent implements OnInit {
   }
 
   resetRating(): void {
+    if (!this.book?.currentRating) return
     this.calcRating(this.book.currentRating);
   }
 

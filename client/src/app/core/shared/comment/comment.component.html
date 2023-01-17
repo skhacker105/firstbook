@@ -21,7 +21,7 @@
       </div>
       <div class="comment-content col-md-11 col-sm-10">
         <h6 class="small comment-meta">
-          <a routerLink="/user/profile/{{c.user.username}}">by {{c.user.username}}</a> {{c.creationDate | commentTime}} ago
+          <a routerLink="/user/profile/{{c.user.username}}">by {{c.user.username}}</a> {{c.creationDate ? (c.creationDate.toString() | commentTime) : ''}} ago
         </h6>
         <div class="comment-body">
           <p>{{c.content}}</p>
@@ -53,7 +53,7 @@
 <ng-template #commentFormTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left">{{action}} Comment</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="commentModalRef.hide()">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="commentModalRef?.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -62,7 +62,7 @@
       <div class="form-group">
         <textarea class="form-control" name="content" cols="30" rows="10" formControlName="content"></textarea>
         <div class="test">
-          <button type="submit" class="btn btn-primary" (click)="commentModalRef.hide()" [disabled]="commentForm.invalid">Submit</button>
+          <button type="submit" class="btn btn-primary" (click)="commentModalRef?.hide()" [disabled]="commentForm.invalid">Submit</button>
         </div>
       </div>
     </form>
@@ -73,6 +73,6 @@
   <div class="modal-body text-center">
     <p>Do you really want to delete your comment?</p>
     <button type="button" class="btn btn-default" (click)="removeComment()">Yes</button>
-    <button type="button" class="btn btn-primary" (click)="removeModalRef.hide()">No</button>
+    <button type="button" class="btn btn-primary" (click)="removeModalRef?.hide()">No</button>
   </div>
 </ng-template>

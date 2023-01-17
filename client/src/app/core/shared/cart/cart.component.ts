@@ -27,12 +27,12 @@ import { Book } from '../../models/book.model';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit, OnDestroy {
-  cart: Cart;
-  cartForm: FormGroup;
-  changesSub$: Subscription;
-  removeModalRef: BsModalRef;
-  lastCartState: string;
-  lastDeleteId: string;
+  cart: Cart | undefined;
+  cartForm: FormGroup | undefined;
+  changesSub$: Subscription | undefined;
+  removeModalRef: BsModalRef | undefined;
+  lastCartState: string | undefined;
+  lastDeleteId: string | undefined;
 
   constructor(
     private router: Router,
@@ -46,13 +46,14 @@ export class CartComponent implements OnInit, OnDestroy {
       .getCart()
       .subscribe((res) => {
         this.cart = res.data;
-        this.cartForm = this.toFormGroup(this.cart.books);
+        if (this.cart)
+          this.cartForm = this.toFormGroup(this.cart.books);
         this.onChanges();
       });
   }
 
   ngOnDestroy(): void {
-    this.changesSub$.unsubscribe();
+    this.changesSub$ ? this.changesSub$.unsubscribe() : null;
   }
 
   toFormGroup(books: Book[]): FormGroup {
@@ -61,16 +62,17 @@ export class CartComponent implements OnInit, OnDestroy {
     books.forEach(book => {
       group[book._id] = new FormControl(
         book.qty || '', [
-          Validators.required,
-          Validators.min(1),
-          Validators.max(20)
-        ]);
+        Validators.required,
+        Validators.min(1),
+        Validators.max(20)
+      ]);
     });
 
     return new FormGroup(group);
   }
 
   onChanges(): void {
+    if (!this.cartForm) return;
     this.changesSub$ = this.cartForm
       .valueChanges
       .pipe(
@@ -94,26 +96,29 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   onRemove(): void {
+    if (!this.lastDeleteId) return;
     this.cartService
       .removeFromCart(this.lastDeleteId)
       .subscribe(() => {
+        if (!this.cart) return;
         this.helperService.cartStatus.next('remove');
         this.cart.books = this.cart.books.filter(b => b._id !== this.lastDeleteId);
-        this.reCalcSum(this.cartForm.value);
-        this.removeModalRef.hide();
+        this.reCalcSum(this.cartForm?.value);
+        this.removeModalRef?.hide();
       });
   }
 
   onSubmit(): void {
     this.cartService
-      .checkout(this.cartForm.value)
+      .checkout(this.cartForm?.value)
       .subscribe(() => {
         this.helperService.cartStatus.next('updateStatus');
         this.router.navigate(['/user/purchaseHistory']);
       });
   }
 
-  reCalcSum(formValues: object): void {
+  reCalcSum(formValues: any): void {
+    if (!this.cart) return;
     let price = 0;
     for (const b of this.cart.books) {
       price += b.price * formValues[b._id];
@@ -123,6 +128,6 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   getControl(id: string) {
-    return this.cartForm.get(id);
+    return this.cartForm?.get(id);
   }
 }

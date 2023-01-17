@@ -16,7 +16,16 @@ import { UserService } from '../../../core/services/user.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+  loginForm: FormGroup = new FormGroup({
+    'username': new FormControl('', [
+      Validators.required
+    ]),
+    'password': new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(16)
+    ]),
+  });
 
   constructor(
     private userService: UserService,
@@ -24,16 +33,6 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      'username': new FormControl('', [
-        Validators.required
-      ]),
-      'password': new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(16)
-      ]),
-    });
   }
 
   onSubmit(): void {
@@ -44,11 +43,11 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  get username(): AbstractControl {
+  get username(): AbstractControl | null {
     return this.loginForm.get('username');
   }
 
-  get password(): AbstractControl {
+  get password(): AbstractControl | null {
     return this.loginForm.get('password');
   }
 

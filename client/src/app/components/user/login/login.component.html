@@ -10,8 +10,8 @@
         <input type="text" matInput name="username" placeholder="Username" formControlName="username">
         <mat-icon matPrefix>account_box</mat-icon>
       </mat-form-field>
-      <div *ngIf="username.invalid && (username.dirty || username.touched)" class="input-error">
-        <div *ngIf="username.errors.required">
+      <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="input-error">
+        <div *ngIf="username?.errors?.['required']">
           Username is required
         </div>
       </div>
@@ -26,11 +26,11 @@
         <mat-icon matPrefix>visibility_off</mat-icon>
       </mat-form-field>
 
-      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="input-error">
-        <div *ngIf="password.errors.required">
+      <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="input-error">
+        <div *ngIf="password?.errors?.['required']">
           Password is required
         </div>
-        <div *ngIf="password.errors.minlength || password.errors.maxlength">
+        <div *ngIf="password?.errors?.['minlength'] || password?.errors?.['maxlength']">
           Password must be between 3 and 16 symbols
         </div>
       </div>
