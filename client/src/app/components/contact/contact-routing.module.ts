@@ -21,11 +21,10 @@ const routes: Routes = [
     path: 'create',
     component: ContactAddEditComponent
   },
-  // {
-  //   path: 'edit/:contactId',
-  //   canActivate: [IsAdminGuard],
-  //   component: BookEditComponent
-  // },
+  {
+    path: 'edit/:contactId',
+    component: ContactAddEditComponent
+  },
   // {
   //   path: 'delete/:contactId',
   //   canActivate: [IsAdminGuard],

@@ -1,5 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Contact } from '../../models/contact.model';
+
+interface IAction {
+  maticon: string,
+  action: string,
+  display: string,
+  isDelete: boolean
+}
 
 @Component({
   selector: 'app-contact',
@@ -9,7 +17,7 @@ import { Contact } from '../../models/contact.model';
 export class ContactComponent {
   @Input('contact') contact: Contact | undefined;
 
-  actions=[
+  actions: IAction[] = [
     {
       maticon: 'edit',
       action: 'edit',
@@ -35,4 +43,17 @@ export class ContactComponent {
       isDelete: true
     }
   ];
+
+  constructor(private router: Router) { }
+
+  onActionClick(a: IAction) {
+    switch (a.action) {
+      case 'edit': this.editClick(); break;
+    }
+  }
+
+  editClick() {
+    if (!this.contact) return;
+    this.router.navigate(['contact/edit', this.contact._id]);
+  }
 }

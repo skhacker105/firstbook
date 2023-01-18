@@ -1,5 +1,5 @@
-<ng-container *ngIf="createBookForm && title && firstName && lastName && type && contact1 && contact2 && address">
-    <form #formDir="ngForm" [formGroup]="createBookForm" (ngSubmit)="onSubmit()">
+<ng-container *ngIf="createContactForm && title && firstName && lastName && type && contact1 && contact2 && address">
+    <form #formDir="ngForm" [formGroup]="createContactForm" (ngSubmit)="onSubmit()">
         <mat-card class="contact-card entity">
             <mat-card-header>
                 <mat-card-title>New Contact <br><br></mat-card-title>
@@ -55,8 +55,8 @@
             </mat-card-content>
             
             <mat-card-actions align="end">
+                <button mat-raised-button color="primary" type="submit">Submit</button>
                 <button mat-raised-button routerLink="/contact">Cancel</button>
-                <button mat-raised-button color="primary">Submit</button>
             </mat-card-actions>
         </mat-card>
 

@@ -11,3 +11,7 @@
 .delete-action {
     color: red;
 }
+
+.contact-panel-header {
+    height: 100px;
+}
