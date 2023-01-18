@@ -13,7 +13,7 @@ import { User } from '../models/user.model';
 import { Receipt } from '../models/receipt.model';
 import { environment } from 'src/environments/environment';
 
-const baseUrl = environment.api+ 'user';
+const baseUrl = environment.api + 'user';
 const registerEndpoint = baseUrl + '/register';
 const loginEndpoint = baseUrl + '/login';
 const profileEndpoint = baseUrl + '/profile/';
@@ -26,6 +26,12 @@ const unblockCommentsEndpoint = baseUrl + '/unlockComments/';
   providedIn: 'root'
 })
 export class UserService {
+
+  titles = ['Mr.', 'Mrs.', 'Miss', 'Ms'];
+  userRelationTypes = [
+    'Friend', 'Vendor', 'Client', 'Other', 'Other Friend',
+    'Business contacts', 'Personal Contacts', 'Hidden Contacts',
+    'Family'].sort((a, b) => a > b ? 1 : -1);
 
   constructor(private http: HttpClient) { }
 

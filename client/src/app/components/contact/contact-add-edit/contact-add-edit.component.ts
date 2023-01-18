@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContactService } from 'src/app/core/services/contact.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-contact-add-edit',
@@ -16,15 +17,16 @@ export class ContactAddEditComponent {
     private router: Router,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private contactService: ContactService
+    private contactService: ContactService,
+    public userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.createContactForm = this.fb.group({
-      title: new FormControl('', Validators.required),
+      title: new FormControl(''),
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl(''),
-      type: new FormControl(''),
+      type: new FormControl('', Validators.required),
       contact1: new FormControl(''),
       contact2: new FormControl(''),
       address: new FormControl('')
@@ -45,7 +47,7 @@ export class ContactAddEditComponent {
         .createContact(this.createContactForm.value)
         .subscribe((res) => {
           if (!res.data) return;
-          this.router.navigate([`/contact/details/${res.data._id}`]);
+          this.router.navigate([`/contact`]);
         });
     } else {
       this.contactService

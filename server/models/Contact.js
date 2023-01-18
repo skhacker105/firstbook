@@ -6,7 +6,7 @@ const NUMBER = MONGOOSE.Schema.Types.Number;
 const OBJECT_ID = MONGOOSE.Schema.Types.ObjectId;
 
 const CONTACT_SCHEMA = MONGOOSE.Schema({
-    title: { type: STRING, required: true },
+    title: { type: STRING },
     firstName: { type: STRING, required: true },
     lastName: { type: STRING, default: '' },
     type: { type: STRING, required: true },

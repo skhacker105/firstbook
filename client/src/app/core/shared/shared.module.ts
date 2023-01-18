@@ -20,6 +20,8 @@ import { IsIsbnDirective } from '../directives/is-isbn.directive';
 import { CommentTimePipe } from '../pipes/comment-time.pipe';
 import { ShortenStringPipe } from '../pipes/shorten-string.pipe';
 import { MatMenuModule } from '@angular/material/menu';
+
+// Angular Material
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -29,6 +31,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ContactComponent } from './contact/contact.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -40,7 +45,8 @@ import { MatSelectModule } from '@angular/material/select';
     IsIsbnDirective,
     CommentTimePipe,
     ShortenStringPipe,
-    ContactComponent
+    ContactComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +60,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatBadgeModule,
     MatExpansionModule,
     MatGridListModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule,
+    MatButtonToggleModule
   ],
   exports: [
     CommentComponent,
@@ -74,7 +82,10 @@ import { MatSelectModule } from '@angular/material/select';
     MatBadgeModule,
     MatExpansionModule,
     MatGridListModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule,
+    ConfirmationDialogComponent,
+    MatButtonToggleModule
   ]
 })
 export class SharedModule { }

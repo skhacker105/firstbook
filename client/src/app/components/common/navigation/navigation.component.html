@@ -10,12 +10,16 @@
       <mat-icon>home</mat-icon>
       <span>Home</span>
     </button>
-    <button mat-menu-item routerLink="/contact">
-      <mat-icon>contacts</mat-icon>
-      <span>Contacts</span>
-    </button>
 
     <ng-template [ngIf]="isUserLogged()">
+      <button mat-menu-item>
+        <mat-icon>chat</mat-icon>
+        <span>Chat</span>
+      </button>
+      <button mat-menu-item routerLink="/contact">
+        <mat-icon>contacts</mat-icon>
+        <span>Contacts</span>
+      </button>
       <button mat-menu-item routerLink="/user/profile/mine">
         <mat-icon>account_box</mat-icon>
         <span>Profile</span>
