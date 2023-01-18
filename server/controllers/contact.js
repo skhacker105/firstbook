@@ -1,6 +1,7 @@
 const VALIDATOR = require('validator');
 const CONTACT = require('mongoose').model('Contact');
 const USER = require('mongoose').model('User');
+const ENCRYPTION = require('../utilities/encryption');
 
 const PAGE_LIMIT = 15;
 
@@ -23,12 +24,6 @@ function validateRatingForm(payload) {
         success: isFormValid,
         errors
     };
-}
-
-function parseJwt(token) {
-    var base64Payload = token.split('.')[1];
-    var payload = Buffer.from(base64Payload, 'base64');
-    return JSON.parse(payload.toString());
 }
 
 module.exports = {
@@ -249,8 +244,7 @@ module.exports = {
         if (params.limit) {
             searchParams.limit = JSON.parse(params.limit);
         }
-        const user = parseJwt(req.headers.authorization);
-        searchParams.query['createdBy'] = user.sub.id;
+        searchParams.query['createdBy'] = ENCRYPTION.parseJwt(req.headers.authorization).sub.id;
 
         CONTACT
             .find(searchParams.query)
