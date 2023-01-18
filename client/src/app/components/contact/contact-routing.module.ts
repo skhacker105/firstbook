@@ -13,10 +13,6 @@ const routes: Routes = [
     path: 'store/:query',
     component: ContactStoreComponent
   },
-  // {
-  //   path: 'details/:contactId',
-  //   component: BookDetailsComponent
-  // },
   {
     path: 'create',
     component: ContactAddEditComponent
@@ -24,12 +20,7 @@ const routes: Routes = [
   {
     path: 'edit/:contactId',
     component: ContactAddEditComponent
-  },
-  // {
-  //   path: 'delete/:contactId',
-  //   canActivate: [IsAdminGuard],
-  //   component: BookDeleteComponent
-  // }
+  }
 ];
 
 @NgModule({

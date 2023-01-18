@@ -14,6 +14,7 @@ const CONTACT_SCHEMA = MONGOOSE.Schema({
     contact2: { type: STRING, default: '' },
     address: { type: STRING, default: '' },
     appUserId: [{ type: OBJECT_ID, ref: 'User' }],
+    createdBy: { type: OBJECT_ID, ref: 'User' },
     creationDate: { type: DATE, default: Date.now },
     currentRating: { type: NUMBER, default: 0 },
     ratingPoints: { type: NUMBER, default: 0 },
@@ -26,6 +27,9 @@ CONTACT_SCHEMA.index({
     firstName: 'text',
     lastName: 'text',
     type: 'text'
+});
+CONTACT_SCHEMA.index({
+    createdBy: 1
 });
 
 const CONTACT = MONGOOSE.model('Contact', CONTACT_SCHEMA);

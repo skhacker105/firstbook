@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContactService } from 'src/app/core/services/contact.service';
+import { HelperService } from 'src/app/core/services/helper.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class ContactAddEditComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private contactService: ContactService,
-    public userService: UserService
+    public userService: UserService,
+    public helperService: HelperService
   ) { }
 
   ngOnInit(): void {
@@ -29,8 +31,10 @@ export class ContactAddEditComponent {
       type: new FormControl('', Validators.required),
       contact1: new FormControl(''),
       contact2: new FormControl(''),
-      address: new FormControl('')
+      address: new FormControl(''),
+      createdBy: new FormControl(this.helperService.getProfile()?.id)
     });
+    this.helperService.getProfile()
     this.id = this.route.snapshot.paramMap.get('contactId');
     if (!this.id) return;
     this.contactService

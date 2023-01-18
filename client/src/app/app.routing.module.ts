@@ -23,6 +23,11 @@ const routes: Routes = [
     loadChildren: () => import('./components/contact/contact.module').then(m => m.ContactModule)
   },
   {
+    path: 'inventory',
+    canActivate: [IsAuthenticatedGuard],
+    loadChildren: () => import('./components/inventory/inventory.module').then(m => m.InventoryModule)
+  },
+  {
     path: 'home',
     component: HomeComponent
   },

@@ -20,6 +20,10 @@ html, body {
   background-image: linear-gradient(to bottom, #3f51b5, #844cb6, #b743ac, #e13c9a, #ff4081);
 }
 
+.no-word-wrap {
+  white-space: nowrap;
+}
+
 /* Forms Start */
 .add-entity {
   position: fixed;

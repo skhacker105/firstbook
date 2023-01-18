@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import decode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
 import { AddEntity } from '../models/add-entity.model';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,13 +27,12 @@ export class HelperService {
     localStorage.clear();
   }
 
-  getProfile(): any {
+  getProfile(): User | undefined {
     try {
       const decoded: any = decode(this.getToken());
-
       return decoded.sub;
     } catch (err) {
-      return {};
+      return undefined;
     }
   }
 

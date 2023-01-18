@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.routeChangeSub$ = this.route.params.subscribe((params) => {
       let username = params['username'];
       if (username === 'mine') {
-        username = this.helperService.getProfile().username;
+        username = this.helperService.getProfile()?.username;
       }
 
       this.userService
@@ -63,7 +63,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
 
     this.isAdmin = this.helperService.isAdmin();
-    this.currentUserId = this.helperService.getProfile().id;
+    this.currentUserId = this.helperService.getProfile()?.id;
 
   }
 

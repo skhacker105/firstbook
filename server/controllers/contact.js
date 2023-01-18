@@ -25,6 +25,12 @@ function validateRatingForm(payload) {
     };
 }
 
+function parseJwt(token) {
+    var base64Payload = token.split('.')[1];
+    var payload = Buffer.from(base64Payload, 'base64');
+    return JSON.parse(payload.toString());
+}
+
 module.exports = {
     getSingle: (req, res) => {
         let contactId = req.params.contactId;
@@ -243,6 +249,8 @@ module.exports = {
         if (params.limit) {
             searchParams.limit = JSON.parse(params.limit);
         }
+        const user = parseJwt(req.headers.authorization);
+        searchParams.query['createdBy'] = user.sub.id;
 
         CONTACT
             .find(searchParams.query)

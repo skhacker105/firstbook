@@ -40,7 +40,7 @@ export class BookDetailsComponent implements OnInit {
     this.bookId = this.route.snapshot.paramMap.get('bookId');
     this.isLogged = this.helperService.isLoggedIn();
     this.isAdmin = this.helperService.isAdmin();
-    this.userId = this.helperService.getProfile().id;
+    this.userId = this.helperService.getProfile()?.id;
 
     if (!this.bookId) return;
     this.bookService

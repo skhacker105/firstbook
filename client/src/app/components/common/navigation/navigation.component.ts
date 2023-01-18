@@ -106,7 +106,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   getUsername(): void {
     if (!this.username) {
-      this.username = this.helperService.getProfile().username;
+      this.username = this.helperService.getProfile()?.username;
     }
   }
 
