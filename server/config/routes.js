@@ -1,6 +1,8 @@
 const USER_CONTROLLER = require('../controllers/user');
 const BOOK_CONTROLLER = require('../controllers/book');
 const CONTACT_CONTROLLER = require('../controllers/contact');
+const PRODUCT_CONTROLLER = require('../controllers/product');
+const PRODUCTSPECS_CONTROLLER = require('../controllers/product-spec');
 const COMMENT_CONTROLLER = require('../controllers/comment');
 const CART_CONTROLLER = require('../controllers/cart');
 const ERROR_CONTROLLER = require('../controllers/error');
@@ -29,6 +31,7 @@ module.exports = (APP) => {
     APP.post('/book/rate/:bookId', AUTH.isAuth, BOOK_CONTROLLER.rate);
     APP.post('/book/addToFavorites/:bookId', AUTH.isAuth, BOOK_CONTROLLER.addToFavorites);
 
+    // CONTACT
     APP.get('/contact/search', CONTACT_CONTROLLER.search);
     APP.get('/contact/details/:contactId', CONTACT_CONTROLLER.getSingle);
     APP.post('/contact/add', AUTH.isAuth, CONTACT_CONTROLLER.add);
@@ -36,6 +39,25 @@ module.exports = (APP) => {
     APP.delete('/contact/delete/:contactId', AUTH.isAuth, CONTACT_CONTROLLER.delete);
     APP.post('/contact/rate/:contactId', AUTH.isAuth, CONTACT_CONTROLLER.rate);
     APP.post('/contact/addToFavorites/:contactId', AUTH.isAuth, CONTACT_CONTROLLER.addToFavorites);
+
+    // PRODUCT / INVENTORY
+    APP.post('/product/picture/:productId', PRODUCT_CONTROLLER.addMainPicture);
+    APP.delete('/product/picture/:productId', PRODUCT_CONTROLLER.deleteMainPicture);
+    APP.post('/product/gallery/:productId', PRODUCT_CONTROLLER.addPicture);
+    APP.delete('/product/:productId/gallery/:index', PRODUCT_CONTROLLER.deletePicture);
+    APP.get('/product/search', PRODUCT_CONTROLLER.search);
+    APP.get('/product/details/:productId', PRODUCT_CONTROLLER.getSingle);
+    APP.post('/product/add', AUTH.isAuth, PRODUCT_CONTROLLER.add);
+    APP.put('/product/edit/:productId', AUTH.isAuth, PRODUCT_CONTROLLER.edit);
+    APP.delete('/product/delete/:productId', AUTH.isAuth, PRODUCT_CONTROLLER.delete);
+    APP.post('/product/rate/:productId', AUTH.isAuth, PRODUCT_CONTROLLER.rate);
+
+    // PRODUCT SPECIFICATION
+    APP.get('/specs/product/:productId', PRODUCTSPECS_CONTROLLER.getProductSpecs);
+    APP.get('/specs/category/:category', PRODUCTSPECS_CONTROLLER.getCategoriesSpecs);
+    APP.post('/specs/:productId', PRODUCTSPECS_CONTROLLER.add);
+    APP.put('/specs/:productspecId', PRODUCTSPECS_CONTROLLER.edit);
+    APP.delete('/specs/:productspecId', PRODUCTSPECS_CONTROLLER.delete);
 
     APP.get('/comment/getLatestFiveByUser/:userId', AUTH.isAuth, COMMENT_CONTROLLER.getLatestFiveByUser);
     APP.get('/comment/:bookId/:skipCount', COMMENT_CONTROLLER.getComments);

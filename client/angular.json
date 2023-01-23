@@ -27,7 +27,9 @@
               "src/assets/reset.css",
               "src/assets/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css",
-              "src/styles.css"
+              "src/styles.css",
+              "./node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
+              "./node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css"
             ],
             "scripts": []
           },
@@ -42,13 +44,16 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
-            }
+            },
+            "development": {
+              "aot": false
+            },
+            "defaultConfiguration": "development"
           }
         },
         "serve": {
@@ -59,7 +64,11 @@
           "configurations": {
             "production": {
               "browserTarget": "client:build:production"
-            }
+            },
+            "development": {
+              "aot": false
+            },
+            "defaultConfiguration": "development"
           }
         },
         "extract-i18n": {

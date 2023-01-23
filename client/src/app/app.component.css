@@ -17,3 +17,7 @@ app-header,
 app-footer {
   flex: none;
 }
+
+.entity-add {
+  font-weight: bold;
+}

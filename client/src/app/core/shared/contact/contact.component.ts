@@ -57,7 +57,6 @@ export class ContactComponent {
   }
 
   deleteClick() {
-    // this.router.navigate(['contact/edit', this.contact._id]);
     const dialogRef = this.dialog.open(ConfirmationDialogComponent);
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -68,7 +67,6 @@ export class ContactComponent {
           .subscribe(res => {
             if (res.data) {
               this.deletedEvent.emit();
-              // this.router.navigateByUrl('/contact');
             }
             else console.log('Error while deleting')
           })

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContactService } from 'src/app/core/services/contact.service';
@@ -10,7 +10,7 @@ import { UserService } from 'src/app/core/services/user.service';
   templateUrl: './contact-add-edit.component.html',
   styleUrls: ['./contact-add-edit.component.css']
 })
-export class ContactAddEditComponent {
+export class ContactAddEditComponent implements OnInit {
   createContactForm: FormGroup | undefined;
   id: string | null | undefined;
 
@@ -31,10 +31,8 @@ export class ContactAddEditComponent {
       type: new FormControl('', Validators.required),
       contact1: new FormControl(''),
       contact2: new FormControl(''),
-      address: new FormControl(''),
-      createdBy: new FormControl(this.helperService.getProfile()?.id)
+      address: new FormControl('')
     });
-    this.helperService.getProfile()
     this.id = this.route.snapshot.paramMap.get('contactId');
     if (!this.id) return;
     this.contactService
@@ -55,10 +53,10 @@ export class ContactAddEditComponent {
         });
     } else {
       this.contactService
-      .editContact(this.id, this.createContactForm.value)
-      .subscribe((res) => {
-        res.data ? this.router.navigateByUrl(`/contact`) : null;
-      });
+        .editContact(this.id, this.createContactForm.value)
+        .subscribe((res) => {
+          res.data ? this.router.navigateByUrl(`/contact`) : null;
+        });
     }
   }
 

@@ -1,0 +1,13 @@
+.product-images-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.product-images {
+    max-height:200px;
+    max-width:200px;
+    height:auto;
+    width:auto;
+    margin: auto;
+}

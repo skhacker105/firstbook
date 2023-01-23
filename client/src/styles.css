@@ -20,6 +20,10 @@ html, body {
   background-image: linear-gradient(to bottom, #3f51b5, #844cb6, #b743ac, #e13c9a, #ff4081);
 }
 
+input[type=file] {
+  display: none;
+}
+
 .no-word-wrap {
   white-space: nowrap;
 }
@@ -67,8 +71,14 @@ html, body {
 .email,
 .pass,
 .title,
+.upload,
+.submit,
 .login-submit {
   width: 100%;
+}
+
+.key-value-input {
+  width: 50%;
 }
 
 @media screen and (max-width: 600px) {

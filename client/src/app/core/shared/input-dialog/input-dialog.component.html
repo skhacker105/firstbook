@@ -1,0 +1,13 @@
+<form>
+  <h1 mat-dialog-title> {{ data ? data : 'Confirm'}} </h1>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <input type="text" matInput [(ngModel)]="input">
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-raised-button type="button" mat-dialog-close>Cancel</button>
+    <button mat-raised-button type="submit" color="primary" [mat-dialog-close]="input">Save</button>
+  </div>
+</form>

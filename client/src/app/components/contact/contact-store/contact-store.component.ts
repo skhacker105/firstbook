@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Contact } from 'src/app/core/models/contact.model';
@@ -15,7 +15,7 @@ interface IType {
   templateUrl: './contact-store.component.html',
   styleUrls: ['./contact-store.component.css']
 })
-export class ContactStoreComponent {
+export class ContactStoreComponent implements OnInit, OnDestroy {
   currentQuery: string = '';
   pageSize = 15;
   currentPage = 1;

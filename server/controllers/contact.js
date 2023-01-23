@@ -1,7 +1,8 @@
 const VALIDATOR = require('validator');
 const CONTACT = require('mongoose').model('Contact');
 const USER = require('mongoose').model('User');
-const ENCRYPTION = require('../utilities/encryption');
+const HELPER = require('../utilities/helper');
+const HTTP = require('../utilities/http');
 
 const PAGE_LIMIT = 15;
 
@@ -27,32 +28,22 @@ function validateRatingForm(payload) {
 }
 
 module.exports = {
+
     getSingle: (req, res) => {
         let contactId = req.params.contactId;
 
         CONTACT.findById(contactId)
             .then((contact) => {
-                if (!contact) {
-                    return res.status(400).json({
-                        message: 'There is no contact with the given id in our database.'
-                    });
-                }
+                if (!contact) return HTTP.error(res, 'There is no contact with the given id in our database.');
 
-                return res.status(200).json({
-                    message: '',
-                    data: contact
-                });
+                return HTTP.success(res, contact);
             })
-            .catch((err) => {
-                console.log(err);
-                return res.status(400).json({
-                    message: 'Something went wrong, please try again.'
-                });
-            });
+            .catch(err => HTTP.handleError(res, err));
     },
 
     add: (req, res) => {
         let contact = req.body;
+        contact['createdBy'] = HELPER.getAuthUserId(req);
 
         // let validationResult = validateBookForm(book);
 
@@ -64,16 +55,8 @@ module.exports = {
         // }
 
         CONTACT.create(contact).then((newContact) => {
-            return res.status(200).json({
-                message: 'Contact created successfully!',
-                data: newContact
-            });
-        }).catch((err) => {
-            console.log(err);
-            return res.status(400).json({
-                message: 'Something went wrong, please try again.'
-            });
-        });
+            return HTTP.success(res, newContact,  'Contact created successfully!');
+        }).catch(err => HTTP.handleError(res, err));
     },
 
     edit: (req, res) => {
@@ -90,11 +73,7 @@ module.exports = {
         // }
 
         CONTACT.findById(contactId).then((contact) => {
-            if (!contact) {
-                return res.status(400).json({
-                    message: 'There is no contact with the given id in our database.'
-                });
-            }
+            if (!contact) return HTTP.error(res, 'There is no contact with the given id in our database.');
 
             contact.title = editedContact.title;
             contact.firstName = editedContact.firstName;
@@ -105,38 +84,18 @@ module.exports = {
             contact.address = editedContact.address;
             contact.save();
 
-            return res.status(200).json({
-                message: 'Contact edited successfully!',
-                data: contact
-            });
-        }).catch((err) => {
-            console.log(err);
-            return res.status(400).json({
-                message: 'Something went wrong, please try again.'
-            });
-        });
+            return HTTP.success(res, contact,  'Contact edited successfully!');
+        }).catch(err => HTTP.handleError(res, err));
     },
 
     delete: (req, res) => {
         let contactId = req.params.contactId;
 
         CONTACT.findByIdAndRemove(contactId).then((deletedContact) => {
-            if (!deletedContact) {
-                return res.status(400).json({
-                    message: 'There is no contact with the given id in our database.'
-                });
-            }
+            if (!deletedContact) return HTTP.error(res, 'There is no contact with the given id in our database.');
 
-            return res.status(200).json({
-                message: 'Contact deleted successfully.',
-                data: deletedContact
-            });
-        }).catch((err) => {
-            console.log(err);
-            return res.status(400).json({
-                message: 'Something went wrong, please try again.'
-            });
-        });
+            return HTTP.success(res, deletedContact,  'Contact deleted successfully!');
+        }).catch(err => HTTP.handleError(res, err));
     },
 
     rate: (req, res) => {
@@ -154,17 +113,11 @@ module.exports = {
         }
 
         CONTACT.findById(contactId).then((contact) => {
-            if (!contact) {
-                return res.status(400).json({
-                    message: 'There is no contact with the given id in our database.'
-                });
-            }
+            if (!contact)  return HTTP.error(res, 'There is no contact with the given id in our database.');
 
             let ratedByIds = contact.ratedBy.map((id) => id.toString());
             if (ratedByIds.indexOf(userId) !== -1) {
-                return res.status(400).json({
-                    message: 'You already rated this contact'
-                });
+                return HTTP.error(res, 'You already rated this contact');
             }
 
             contact.ratedBy.push(userId);
@@ -173,50 +126,29 @@ module.exports = {
             contact.currentRating = contact.ratingPoints / contact.ratedCount;
             contact.save();
 
-            return res.status(200).json({
-                message: 'You rated the contact successfully.',
-                data: contact
-            });
-        }).catch((err) => {
-            console.log(err);
-            return res.status(400).json({
-                message: 'Something went wrong, please try again.'
-            });
-        });
+            return HTTP.success(res, contact,  'You rated the contact successfully.');
+        }).catch(err => HTTP.handleError(res, err));
     },
 
     addToFavorites: (req, res) => {
         let contactId = req.params.contactId;
 
         CONTACT.findById(contactId).then((contact) => {
-            if (!contact) {
-                return res.status(400).json({
-                    message: 'There is no contact with the given id in our database.'
-                });
-            }
+            if (!contact)  return HTTP.error(res, 'There is no contact with the given id in our database.');
 
             USER.findById(req.user.id).then((user) => {
 
                 let contactsIds = user.favoriteContacts.map((b) => b.toString());
                 if (contactsIds.indexOf(contactId) !== -1) {
-                    return res.status(400).json({
-                        message: 'You already have this contact in your favorites list'
-                    });
+                    return HTTP.error(res, 'You already have this contact in your favorites list');
                 }
 
                 user.favoriteContacts.push(contact._id);
                 user.save();
 
-                return res.status(200).json({
-                    message: 'Successfully added the contact to your favorites list.'
-                });
+                return HTTP.success(res, null,  'Successfully added the contact to your favorites list.');
             });
-        }).catch((err) => {
-            console.log(err);
-            return res.status(400).json({
-                message: 'Something went wrong, please try again.'
-            });
-        });
+        }).catch(err => HTTP.handleError(res, err));
     },
 
     search: (req, res) => {
@@ -244,7 +176,7 @@ module.exports = {
         if (params.limit) {
             searchParams.limit = JSON.parse(params.limit);
         }
-        searchParams.query['createdBy'] = ENCRYPTION.parseJwt(req.headers.authorization).sub.id;
+        searchParams.query['createdBy'] = HELPER.getAuthUserId(req);
 
         CONTACT
             .find(searchParams.query)
@@ -264,10 +196,9 @@ module.exports = {
                         });
                     })
                     .catch(() => {
-                        return res.status(400).json({
-                            message: 'Bad Request!'
-                        });
+                        return HTTP.error(res, 'Bad Request!');
                     });
             });
     }
+
 };

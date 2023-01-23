@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InventoryStoreComponent } from './inventory-store/inventory-store.component';
+import { ProductCreateComponent } from './product-create/product-create.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'store/:query',
     component: InventoryStoreComponent
+  },
+  {
+    path: 'create',
+    component: ProductCreateComponent
   }
 ];
 

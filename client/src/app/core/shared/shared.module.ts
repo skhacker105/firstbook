@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 // Modules
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Components
 import { CommentComponent } from './comment/comment.component';
@@ -34,6 +34,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { SanitizerUrlPipe } from '../pipes/sanitizer-url.pipe';
+import { PreviewComponent } from './preview/preview.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { InputDialogComponent } from './input-dialog/input-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,11 +50,15 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     CommentTimePipe,
     ShortenStringPipe,
     ContactComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    SanitizerUrlPipe,
+    PreviewComponent,
+    InputDialogComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     ReactiveFormsModule,
     MatInputModule,
     MatIconModule,
@@ -62,7 +70,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatGridListModule,
     MatSelectModule,
     MatDialogModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    CarouselModule
   ],
   exports: [
     CommentComponent,
@@ -85,7 +94,11 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatSelectModule,
     MatDialogModule,
     ConfirmationDialogComponent,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    SanitizerUrlPipe,
+    PreviewComponent,
+    CarouselModule,
+    InputDialogComponent
   ]
 })
 export class SharedModule { }
