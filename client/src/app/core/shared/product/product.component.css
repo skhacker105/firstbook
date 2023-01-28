@@ -1,0 +1,31 @@
+.example-card {
+    max-width: 400px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.product-title {
+    text-align: left;
+}
+
+.product-subtitle {
+    padding-bottom: 10px;
+}
+
+.product-images {
+    max-height: 200px;
+    max-width: 200px;
+    height: auto;
+    width: auto;
+    margin: auto;
+}
+
+.product-edit {
+    position: absolute;
+    z-index: 100;
+    right: 10px;
+}
+
+.product-action {
+    width: 100%;
+}

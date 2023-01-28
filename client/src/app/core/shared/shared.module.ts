@@ -38,6 +38,7 @@ import { SanitizerUrlPipe } from '../pipes/sanitizer-url.pipe';
 import { PreviewComponent } from './preview/preview.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { InputDialogComponent } from './input-dialog/input-dialog.component';
+import { ProductComponent } from './product/product.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { InputDialogComponent } from './input-dialog/input-dialog.component';
     ConfirmationDialogComponent,
     SanitizerUrlPipe,
     PreviewComponent,
-    InputDialogComponent
+    InputDialogComponent,
+    ProductComponent
   ],
   imports: [
     CommonModule,
@@ -98,7 +100,8 @@ import { InputDialogComponent } from './input-dialog/input-dialog.component';
     SanitizerUrlPipe,
     PreviewComponent,
     CarouselModule,
-    InputDialogComponent
+    InputDialogComponent,
+    ProductComponent
   ]
 })
 export class SharedModule { }

@@ -25,6 +25,7 @@ module.exports = (config) => {
     require('../models/Receipt');
     require('../models/Book');
     require('../models/Comment');
+    require('../models/Image');
     require('../models/Contact');
     require('../models/Product');
     require('../models/Productspec');

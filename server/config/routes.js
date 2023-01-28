@@ -6,6 +6,7 @@ const PRODUCTSPECS_CONTROLLER = require('../controllers/product-spec');
 const COMMENT_CONTROLLER = require('../controllers/comment');
 const CART_CONTROLLER = require('../controllers/cart');
 const ERROR_CONTROLLER = require('../controllers/error');
+const STORAGE = require('../utilities/storage');
 const AUTH = require('./auth');
 
 module.exports = (APP) => {
@@ -41,10 +42,13 @@ module.exports = (APP) => {
     APP.post('/contact/addToFavorites/:contactId', AUTH.isAuth, CONTACT_CONTROLLER.addToFavorites);
 
     // PRODUCT / INVENTORY
-    APP.post('/product/picture/:productId', PRODUCT_CONTROLLER.addMainPicture);
+    APP.post('/product/picture', PRODUCT_CONTROLLER.addMainPicture);
+    APP.get('/picture/:pictureId', PRODUCT_CONTROLLER.getPicture);
     APP.delete('/product/picture/:productId', PRODUCT_CONTROLLER.deleteMainPicture);
-    APP.post('/product/gallery/:productId', PRODUCT_CONTROLLER.addPicture);
-    APP.delete('/product/:productId/gallery/:index', PRODUCT_CONTROLLER.deletePicture);
+    
+    APP.post('/product/gallery', PRODUCT_CONTROLLER.addPictures);
+    APP.delete('/product/gallery/:pictureId', PRODUCT_CONTROLLER.deletePictures);
+    
     APP.get('/product/search', PRODUCT_CONTROLLER.search);
     APP.get('/product/details/:productId', PRODUCT_CONTROLLER.getSingle);
     APP.post('/product/add', AUTH.isAuth, PRODUCT_CONTROLLER.add);

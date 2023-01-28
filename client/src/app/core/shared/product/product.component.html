@@ -1,0 +1,37 @@
+<mat-card class="example-card" *ngIf="product">
+    <mat-card-header>
+        <mat-card-title class="product-title" (click)="goToDetail()">
+            <button mat-mini-fab class="product-edit" (click)="goToEditDetail()">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <span class="spacer"></span>
+            {{ product.name }}
+        </mat-card-title>
+        <mat-card-subtitle class="product-subtitle">
+            <ng-container *ngIf="!product.currentRating">No Ratings Available</ng-container>
+            <ng-container *ngIf="product.currentRating">
+                {{ product.currentRating }} Stars
+            </ng-container>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <app-preview [customOptions]="customOptions" [mainImage]="mainImage" [showActions]="false"></app-preview>
+
+    <mat-card-content>
+        <p align="justify" [innerHTML]="product.description">
+        </p>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <mat-expansion-panel class="product-action">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    
+                </mat-panel-title>
+                <mat-panel-description>
+                    Specifications
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            Specs
+        </mat-expansion-panel>
+    </mat-card-actions>
+</mat-card>

@@ -1,1 +1,8 @@
-<p>inventory-store works!</p>
+<ng-container *ngIf="productIds && productIds.length > 0">
+    <ng-container *ngFor="let productId of productIds">
+        <app-product [productId]="productId"></app-product>
+    </ng-container>
+</ng-container>
+<ng-container *ngIf="!productIds || productIds.length === 0">
+    No Items in list
+</ng-container>

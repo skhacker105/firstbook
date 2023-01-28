@@ -2,20 +2,23 @@
 
     <!-- Image Uploader -->
     <ng-template #fileUploader>
-        <input type="file" #fileInput multiple accept="image/*" (change)="onChangeFileInput()" />
+        <input type="file" #fileInput multiple accept="image/*" (change)="onChangeFileInput($event)" />
         <button mat-fab class="upload" color="accent" (click)="onClickFileInputButton()">
             <mat-icon>cloud_upload</mat-icon>
         </button>
     </ng-template>
 
     <!-- Images -->
-    <ng-container *ngIf="!mainImage">
+    <ng-container *ngIf="!mainImage && images.length === 0">
         <mat-card class="product-images">
             <ng-template [ngTemplateOutlet]="fileUploader"></ng-template>
         </mat-card>
     </ng-container>
-    <ng-container *ngIf="mainImage">
-        <app-preview [customOptions]="customOptions" [previews]="previews"></app-preview>
+    <ng-container *ngIf="mainImage || images.length > 0">
+        <app-preview [customOptions]="customOptions" [files]="images" [mainImage]="mainImage"
+            (deleteMainImage)="handleMainImageDelete()" (deleteImage)="handleImageDelete($event)"
+            (setMainImage)="handleSetMainImage($event)">
+        </app-preview>
         <br>
         <ng-template [ngTemplateOutlet]="fileUploader"></ng-template>
         <br><br>
@@ -25,7 +28,7 @@
     <form #formDir="ngForm" [formGroup]="createProductForm" (ngSubmit)="onSubmit()" class="form">
         <mat-card class="contact-card entity">
             <mat-card-header>
-                <mat-card-title>New Product <br><br></mat-card-title>
+                <mat-card-title>New Item <br><br></mat-card-title>
             </mat-card-header>
             <mat-card-content>
 
@@ -38,7 +41,9 @@
                 <!-- Description -->
                 <mat-form-field class="flexible-input">
                     <mat-label>Description</mat-label>
-                    <textarea rows="5" type="text" matInput formControlName="description"></textarea>
+                    <textarea matInput formControlName="description" style="display: none;"></textarea>
+                    <quill-editor [placeholder]="''" formControlName="description"
+                    [formControl]="descriptionControl"> </quill-editor>
                 </mat-form-field>
 
                 <!-- Specifications -->
@@ -48,15 +53,33 @@
                 </button><br><br>
                 <div formArrayName="specifications">
                     <mat-accordion>
-                        <ng-container *ngFor="let spec of unique_specs">
-                            <mat-expansion-panel class="spec-expansion" [expanded]="spec.isOpen">
+                        <ng-container *ngFor="let spec of unique_specs; let idx = index;">
+                            <mat-expansion-panel class="spec-expansion" [expanded]="spec.isOpen"
+                                (closed)="spec.isOpen=false" (opened)="spec.isOpen=true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         {{ spec.name }}
-
                                     </mat-panel-title>
+                                    <mat-panel-description class="spec-error" *ngIf="spec.error">
+                                        Incomplete
+                                    </mat-panel-description>
+
                                     <span class="spec-actions">
-                                        <button mat-mini-fab class="spec-actions" type="button" color="primary" (click)="pushNewSpecForm(spec, $event)">
+                                        <button mat-mini-fab type="button" class="spec-actions" color="primary"
+                                            (click)="handleEditCategory(spec.name, $event)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </span>
+
+                                    <span class="spec-actions">
+                                        <button mat-mini-fab type="button" class="spec-actions" color="warn"
+                                            (click)="handleCategoryDelete(spec.name, idx, $event)">
+                                            <mat-icon>delete_forever</mat-icon>
+                                        </button>
+                                    </span>
+                                    <span class="spec-actions">
+                                        <button mat-mini-fab class="spec-actions" type="button" color="accent"
+                                            (click)="pushNewSpecForm(spec, $event)">
                                             <mat-icon>add</mat-icon>
                                         </button>
                                     </span>
@@ -66,12 +89,6 @@
                                 <!-- Spec form for unique Category -->
                                 <ng-container *ngFor="let specControl of specs.controls; let i=index;">
                                     <div [formGroupName]="i" *ngIf="specControl.get('category')?.value === spec.name">
-
-                                        <!-- Category -->
-                                        <mat-form-field style="display: none;">
-                                            <mat-label>Category</mat-label>
-                                            <input type="text" matInput formControlName="category">
-                                        </mat-form-field>
 
                                         <!-- Name -->
                                         <mat-form-field class="key-value-input">
@@ -84,6 +101,12 @@
                                             <mat-label>Value</mat-label>
                                             <input type="text" matInput formControlName="value">
                                         </mat-form-field>
+
+                                        <!-- Delete Specification -->
+                                        <button mat-icon-button type="button" class="spec-actions spec-error"
+                                            (click)="handleSpecDelete(i, idx)">
+                                            <mat-icon>delete_forever</mat-icon>
+                                        </button>
 
                                     </div>
                                 </ng-container>
@@ -105,8 +128,8 @@
             </mat-card-content>
 
             <mat-card-actions align="end">
-                <button mat-raised-button type="submit" color="primary" type="submit">Save</button>
                 <button mat-raised-button type="button" routerLink="/inventory">Cancel</button>
+                <button mat-raised-button type="submit" color="primary" type="submit">Save</button>
             </mat-card-actions>
         </mat-card>
     </form>

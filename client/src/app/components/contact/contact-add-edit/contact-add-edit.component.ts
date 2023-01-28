@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ContactService } from 'src/app/core/services/contact.service';
 import { HelperService } from 'src/app/core/services/helper.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -20,7 +21,8 @@ export class ContactAddEditComponent implements OnInit {
     private route: ActivatedRoute,
     private contactService: ContactService,
     public userService: UserService,
-    public helperService: HelperService
+    public helperService: HelperService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +46,10 @@ export class ContactAddEditComponent implements OnInit {
 
   onSubmit(): void {
     if (!this.createContactForm) return;
+    if (this.createContactForm.invalid) {
+      this.toastr.error('Incomplete information cannot be submitted')
+      return;
+    }
     if (!this.id) {
       this.contactService
         .createContact(this.createContactForm.value)

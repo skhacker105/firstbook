@@ -58,12 +58,13 @@ module.exports = {
 
         PRODUCTSPEC.findById(productspecId).then((spec) => {
             if (!spec) return HTTP.error(res, 'There is no product specification with the given id in our database.');
+            spec.category = editedProductSpec.category;
             spec.name = editedProductSpec.name;
             spec.value = editedProductSpec.value;
             spec.isImportant = editedProductSpec.isImportant;
 
             spec.save();
-            return HTTP.success(res, product, 'Product specification edited successfully.');
+            return HTTP.success(res, spec, 'Product specification edited successfully.');
         }).catch(err => HTTP.handleError(res, err));
     },
 
@@ -73,7 +74,7 @@ module.exports = {
         PRODUCTSPEC.findById(productspecId).then((spec) => {
             if (!spec) return HTTP.error(res, 'There is no product specification with the given id in our database.');
 
-            PRODUCT.findById(productId).then((product) => {
+            PRODUCT.findById(spec.productId).then((product) => {
                 if (!product) return HTTP.error(res, 'There is no product for the given specification id in our database.');
 
                 PRODUCTSPEC.findByIdAndRemove(productspecId).then(() => {

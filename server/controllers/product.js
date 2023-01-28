@@ -2,6 +2,8 @@ const VALIDATOR = require('validator');
 const HELPER = require('../utilities/helper');
 const HTTP = require('../utilities/HTTP');
 const PRODUCT = require('mongoose').model('Product');
+const IMAGE = require('mongoose').model('Image');
+const imageToBase64 = require('image-to-base64');
 
 const PAGE_LIMIT = 15;
 
@@ -28,46 +30,48 @@ function validateRatingForm(payload) {
 
 module.exports = {
     addMainPicture: (req, res) => {
-        let productId = req.params.productId;
-        let picture = req.body;
+        const productId = req.body.productId;
+        const image = req.body.image;
+        const name = req.body.name;
 
         PRODUCT.findById(productId).then(product => {
             if (!product) return HTTP.error(res, 'There is no product with the given id in our database.');
+            let resource = {
+                resourceType: 'product',
+                resourceId: product._id,
+                imagePath: __dirname.replace('controllers', '') + 'images\\' + product._id.toString() + '_' + name,
+                createdBy: HELPER.getAuthUserId(req)
+            }
 
-            product.defaultImage = picture;
-            product.save();
+            HELPER.saveImage(resource.imagePath, image, (error) => {
+                if (error) return HTTP.error(res, 'Image Save Error');
 
-            return HTTP.success(res, product, 'Product image updated successfully.');
+                IMAGE.create(resource).then((newImage) => {
+                    product.defaultImage = newImage._id
+                    product.save();
+
+                    return HTTP.success(res, '', 'Product image updated successfully.');
+                }).catch(err => HTTP.handleError(res, err));
+            });
         });
     },
 
-    addPicture: (req, res) => {
-        let productId = req.params.productId;
-        let picture = req.body;
+    getPicture: (req, res) => {
+        let pictureId = req.params.pictureId;
 
-        PRODUCT.findById(productId).then(product => {
-            if (!product) return HTTP.error(res, 'There is no product with the given id in our database.');
+        IMAGE.findById(pictureId).then(picture => {
+            if (!picture) return HTTP.error(res, 'There is no picture with the given id in our database.');
+            const prefix = 'data:image/jpeg;base64,';
 
-            if (!product.images) product.images = [];
-            product.images.push(picture);
-            product.save();
+            imageToBase64(picture.imagePath)
+                .then(response => HTTP.success(res, {
+                    _id: picture.id,
+                    name: picture.imagePath.split('\\').pop(),
+                    image: prefix + response
+                }))
 
-            return HTTP.success(res, product, 'Image added to product successfully.');
-        });
-    },
-
-    deletePicture: (req, res) => {
-        let productId = req.params.productId;
-        let index = req.params.index;
-
-        PRODUCT.findById(productId).then(product => {
-            if (!product) return HTTP.error(res, 'There is no product with the given id in our database.');
-
-            product.images.splice(index, 1);
-            product.save();
-
-            return HTTP.success(res, product, 'Image added to product successfully.');
-        });
+                .catch(err => HTTP.error(res, err));
+        }).catch(err => HTTP.handleError(res, err));
     },
 
     deleteMainPicture: (req, res) => {
@@ -76,12 +80,77 @@ module.exports = {
         PRODUCT.findById(productId).then(product => {
             if (!product) return HTTP.error(res, 'There is no product with the given id in our database.');
 
-            product.defaultImage = '';
-            product.save();
+            IMAGE.findByIdAndRemove(product.defaultImage)
+                .then(deletedImage => {
+                    product.defaultImage = ''
+                    product.save();
 
-            return HTTP.success(res, product, 'Image added to product successfully.');
+                    HELPER.deleteImage(deletedImage.imagePath, error => {
+                        if (error) return HTTP.error(res, error);
+
+                        return HTTP.success(res, '', 'Product image deleted successfully.');
+                    })
+                }).catch(err => HTTP.handleError(res, err));
+        }).catch(err => HTTP.handleError(res, err));
+    },
+
+
+
+    addPictures: (req, res) => {
+        const productId = req.body.productId;
+        const name = req.body.name;
+        const image = req.body.image;
+
+        PRODUCT.findById(productId).then(product => {
+            if (!product) return HTTP.error(res, 'There is no product with the given id in our database.');
+            let resource = {
+                resourceType: 'product',
+                resourceId: product._id,
+                imagePath: __dirname.replace('controllers', '') + 'images\\' + product._id.toString() + '_' + name,
+                createdBy: HELPER.getAuthUserId(req)
+            }
+
+            HELPER.saveImage(resource.imagePath, image, (error) => {
+                if (error) return HTTP.error(res, 'Image Save Error');
+
+                IMAGE.create(resource).then((newImage) => {
+                    if (!product.images) product.images = [];
+                    product.images.push(newImage._id);
+                    product.save();
+
+                    return HTTP.success(res, '', 'Product image updated successfully.');
+                }).catch(err => HTTP.handleError(res, err));
+            });
         });
     },
+
+    deletePictures: (req, res) => {
+        let pictureId = req.params.pictureId;
+
+        IMAGE.findById(pictureId).then(picture => {
+            if (!picture) return HTTP.error(res, 'There is no picture with the given id in our database.');
+
+            PRODUCT.findById(picture.resourceId).then(product => {
+                if (!product) return HTTP.error(res, 'There is no product with the given id in our database.');
+                const index = product.images.findIndex(img_id => img_id === pictureId);
+                product.images.splice(index, 1);
+                product.save();
+
+                IMAGE.findByIdAndRemove(pictureId)
+                    .then(deletedImage => {
+
+                        HELPER.deleteImage(deletedImage.imagePath, error => {
+                            if (error) return HTTP.error(res, error);
+
+                            return HTTP.success(res, '', 'Product image deleted successfully.');
+                        })
+                    })
+                    .catch(err => HTTP.handleError(res, err));
+
+            });
+        });
+    },
+
 
     getSingle: (req, res) => {
         let productId = req.params.productId;
@@ -200,6 +269,7 @@ module.exports = {
                     .skip(searchParams.skip)
                     .limit(searchParams.limit)
                     .then((result) => {
+                        result = result.map(r => r._id);
                         return res.status(200).json({
                             message: '',
                             data: result,

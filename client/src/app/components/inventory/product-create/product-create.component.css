@@ -28,3 +28,11 @@
     height: 30px;
     width: 30px;
 }
+
+.spec-error {
+    color: red;
+}
+
+.key-value-input {
+    width: calc(50% - 30px);
+  }

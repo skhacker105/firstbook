@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HelperService } from 'src/app/core/services/helper.service';
+import { ProductService } from 'src/app/core/services/product.service';
 
 @Component({
   selector: 'app-inventory-store',
@@ -9,7 +10,8 @@ import { HelperService } from 'src/app/core/services/helper.service';
   styleUrls: ['./inventory-store.component.css']
 })
 export class InventoryStoreComponent implements OnInit, OnDestroy {
-  
+
+  productIds: string[] = [];
   currentQuery: string = '';
   pageSize = 15;
   currentPage = 1;
@@ -20,14 +22,15 @@ export class InventoryStoreComponent implements OnInit, OnDestroy {
 
   constructor(
     private helperService: HelperService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private productService: ProductService
     ) {}
 
   ngOnInit(): void {
     this.helperService.setAddEntityConfig('/inventory/create');
     this.routeChangeSub$ = this.route.params.subscribe((params) => {
       this.currentQuery = params['query'] ? params['query'] : '';
-      // this.initRequest(this.currentQuery);
+      this.initRequest(this.currentQuery);
     });
 
     this.querySub$ = this.helperService
@@ -35,6 +38,34 @@ export class InventoryStoreComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.currentPage = 1;
       });
+  }
+
+  initRequest(query: string): void {
+    query = this.generateQuery(query);
+    this.productService
+      .search(query)
+      .subscribe((res) => {
+        this.total = res.itemsCount ? res.itemsCount : 0;
+        this.productIds = res.data ? res.data : [];
+      });
+  }
+
+  generateQuery(query: string): string {
+    if (query === 'default') {
+      return `?sort={"firstName":1}`
+        + `&skip=${(this.currentPage - 1) * this.pageSize}`
+        + `&limit=${this.pageSize}`;
+    }
+
+    return `?query={"searchTerm":"${query}"}`
+      + `&sort={"creationDate":-1}`
+      + `&skip=${(this.currentPage - 1) * this.pageSize}`
+      + `&limit=${this.pageSize}`;
+  }
+
+  pageChanged(newPage: number): void {
+    this.currentPage = newPage;
+    this.initRequest(this.currentQuery);
   }
 
   ngOnDestroy(): void {

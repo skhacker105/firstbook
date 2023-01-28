@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { ItemImage } from '../../models/image';
 
 @Component({
   selector: 'app-preview',
@@ -8,5 +9,23 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 })
 export class PreviewComponent {
   @Input() customOptions: OwlOptions | undefined;
-  @Input() previews: any[] = [];
+  @Input() files: ItemImage[] = [];
+  @Input() mainImage: ItemImage | undefined;
+  @Input() showActions = true;
+  @Output() deleteMainImage = new EventEmitter<any>();
+  @Output() deleteImage = new EventEmitter<string>();
+  @Output() setMainImage = new EventEmitter<string>();
+
+
+  handleDeleteMainMenu() {
+    this.deleteMainImage.emit();
+  }
+
+  handleDeleteImage(id: string) {
+    this.deleteImage.emit(id);
+  }
+
+  handleSetMainImage(id: string) {
+    this.setMainImage.emit(id);
+  }
 }

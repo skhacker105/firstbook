@@ -8,9 +8,9 @@ import { ServerResponse } from '../models/server-response.model';
 const domain = environment.api;
 const getProductSpecsEndpoint = domain + 'specs/product/';
 const getCategorySpecsEndpoint = domain + 'specs/category/';
-const createProductSpecsEndpoint = domain + 'specs/add';
-const editProductSpecsEndpoint = domain + 'specs/edit/';
-const deleteProductSpecsEndpoint = domain + 'specs/delete/';
+const createProductSpecsEndpoint = domain + 'specs/';
+const editProductSpecsEndpoint = domain + 'specs/';
+const deleteProductSpecsEndpoint = domain + 'specs/';
 
 @Injectable({
   providedIn: 'root'
@@ -27,15 +27,15 @@ export class ProductSpecsService {
     return this.http.get<ServerResponse<ProductSpecification[]>>(getCategorySpecsEndpoint + category);
   }
 
-  createProductSpecs(payload: ProductSpecification): Observable<ServerResponse<ProductSpecification>> {
-    return this.http.post<ServerResponse<ProductSpecification>>(createProductSpecsEndpoint, payload);
+  createProductSpecs(productId: string, payload: ProductSpecification): Observable<ServerResponse<ProductSpecification>> {
+    return this.http.post<ServerResponse<ProductSpecification>>(createProductSpecsEndpoint + productId, payload);
   }
 
-  editProductSpecs(id: string, payload: ProductSpecification): Observable<ServerResponse<ProductSpecification>> {
-    return this.http.put<ServerResponse<ProductSpecification>>(editProductSpecsEndpoint + id, payload);
+  editProductSpecs(productSpeId: string, payload: ProductSpecification): Observable<ServerResponse<ProductSpecification>> {
+    return this.http.put<ServerResponse<ProductSpecification>>(editProductSpecsEndpoint + productSpeId, payload);
   }
 
-  deleteProductSpecs(id: string): Observable<ServerResponse<ProductSpecification>> {
-    return this.http.delete<ServerResponse<ProductSpecification>>(deleteProductSpecsEndpoint + id);
+  deleteProductSpecs(productSpeId: string): Observable<ServerResponse<ProductSpecification>> {
+    return this.http.delete<ServerResponse<ProductSpecification>>(deleteProductSpecsEndpoint + productSpeId);
   }
 }

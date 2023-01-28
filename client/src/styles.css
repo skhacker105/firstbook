@@ -24,6 +24,10 @@ input[type=file] {
   display: none;
 }
 
+quill-editor {
+  height: 200px;
+}
+
 .no-word-wrap {
   white-space: nowrap;
 }
@@ -31,7 +35,7 @@ input[type=file] {
 /* Forms Start */
 .add-entity {
   position: fixed;
-  z-index: 100;
+  z-index: 1000;
   right: 10px;
   bottom: 70px;
 }
@@ -77,9 +81,6 @@ input[type=file] {
   width: 100%;
 }
 
-.key-value-input {
-  width: 50%;
-}
 
 @media screen and (max-width: 600px) {
   .flexible-input {
