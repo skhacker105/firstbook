@@ -107,7 +107,8 @@ import { ImageViewComponent } from './image-view/image-view.component';
     PreviewComponent,
     CarouselModule,
     InputDialogComponent,
-    ProductComponent
+    ProductComponent,
+    ProductSpecificationComponent
   ]
 })
 export class SharedModule { }
