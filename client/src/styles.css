@@ -10,7 +10,8 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   height: 100%;
   min-height: 100%;
@@ -26,6 +27,16 @@ input[type=file] {
 
 quill-editor {
   height: 200px;
+}
+
+app-product {
+  height: 100%;
+  display: flex;
+  margin: auto;
+}
+
+app-product>mat-card {
+  max-width: 100%;
 }
 
 .no-word-wrap {

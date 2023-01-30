@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // RXJS
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 // HTTP
 import { HttpClient } from '@angular/common/http';
@@ -12,6 +12,8 @@ import { ServerResponse } from '../models/server-response.model';
 import { User } from '../models/user.model';
 import { Receipt } from '../models/receipt.model';
 import { environment } from 'src/environments/environment';
+import { Product } from '../models/product.model';
+import { ProductService } from './product.service';
 
 const baseUrl = environment.api + 'user';
 const registerEndpoint = baseUrl + '/register';
@@ -27,20 +29,48 @@ const unblockCommentsEndpoint = baseUrl + '/unlockComments/';
 })
 export class UserService {
 
+  private userProducts: string[] = [];
+  userProductsLoaded = false;
   titles = ['Mr.', 'Mrs.', 'Miss', 'Ms'];
   userRelationTypes = [
     'Friend', 'Vendor', 'Client', 'Other', 'Other Friend',
     'Business contacts', 'Personal Contacts', 'Hidden Contacts',
     'Family'].sort((a, b) => a > b ? 1 : -1);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private productService: ProductService) { }
 
   register(payload: object): Observable<ServerResponse<User>> {
     return this.http.post<ServerResponse<User>>(registerEndpoint, payload);
   }
 
   login(payload: object): Observable<ServerResponse<User>> {
-    return this.http.post<ServerResponse<User>>(loginEndpoint, payload);
+    return this.http.post<ServerResponse<User>>(loginEndpoint, payload)
+      .pipe(map(userRes => {
+        userRes.data ? this.loadUserProducts(userRes.data) : null;
+        return userRes;
+      }));
+  }
+
+  logout() {
+    this.userProducts = [];
+  }
+
+  getProducts() {
+    return this.userProducts;
+  }
+
+  isOwnerOfProduct(productId: string): boolean {
+    return this.userProducts.find(p => p === productId) ? true : false
+  }
+
+  loadUserProducts(user: User) {
+    this.productService
+      .userProducts()
+      .subscribe(productsRes => {
+        this.userProductsLoaded = true;
+        if (productsRes.data)
+          this.userProducts = productsRes.data
+      });
   }
 
   getProfile(username: string): Observable<ServerResponse<User>> {

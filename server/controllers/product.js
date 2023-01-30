@@ -94,8 +94,6 @@ module.exports = {
         }).catch(err => HTTP.handleError(res, err));
     },
 
-
-
     addPictures: (req, res) => {
         const productId = req.body.productId;
         const name = req.body.name;
@@ -151,6 +149,35 @@ module.exports = {
         });
     },
 
+
+
+    enable: (req, res) => {
+        let productId = req.params.productId;
+
+        PRODUCT.findById(productId)
+            .then((product) => {
+                if (!product) return HTTP.error(res, 'There is no product with the given id in our database.');
+
+                product['disabled'] = false;
+                product.save();
+                return HTTP.success(res, product);
+            })
+            .catch(err => HTTP.handleError(res, err));
+    },
+
+    disable: (req, res) => {
+        let productId = req.params.productId;
+
+        PRODUCT.findById(productId)
+            .then((product) => {
+                if (!product) return HTTP.error(res, 'There is no product with the given id in our database.');
+
+                product['disabled'] = true;
+                product.save();
+                return HTTP.success(res, product);
+            })
+            .catch(err => HTTP.handleError(res, err));
+    },
 
     getSingle: (req, res) => {
         let productId = req.params.productId;
@@ -232,6 +259,17 @@ module.exports = {
         }).catch(err => HTTP.handleError(res, err));
     },
 
+    userProducts: (req, res) => {
+        PRODUCT.find({ createdBy: HELPER.getAuthUserId(req) })
+            .then(products => {
+                if (!products || products.length === 0) return HTTP.success(res, [])
+
+                const pids = products.map(p => p._id)
+                HTTP.success(res, pids);
+            })
+            .catch(err => HTTP.handleError(res, err));
+    },
+
     search: (req, res) => {
         let params = req.query;
         let searchParams = {
@@ -257,7 +295,8 @@ module.exports = {
         if (params.limit) {
             searchParams.limit = JSON.parse(params.limit);
         }
-        searchParams.query['createdBy'] = HELPER.getAuthUserId(req);
+        if (!HELPER.isAdmin(req))
+            searchParams.query['createdBy'] = HELPER.getAuthUserId(req);
 
         PRODUCT
             .find(searchParams.query)

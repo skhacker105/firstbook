@@ -41,7 +41,7 @@ module.exports = (APP) => {
     APP.post('/contact/rate/:contactId', AUTH.isAuth, CONTACT_CONTROLLER.rate);
     APP.post('/contact/addToFavorites/:contactId', AUTH.isAuth, CONTACT_CONTROLLER.addToFavorites);
 
-    // PRODUCT / INVENTORY
+    // PRODUCT IMAGEs
     APP.post('/product/picture', PRODUCT_CONTROLLER.addMainPicture);
     APP.get('/picture/:pictureId', PRODUCT_CONTROLLER.getPicture);
     APP.delete('/product/picture/:productId', PRODUCT_CONTROLLER.deleteMainPicture);
@@ -49,6 +49,10 @@ module.exports = (APP) => {
     APP.post('/product/gallery', PRODUCT_CONTROLLER.addPictures);
     APP.delete('/product/gallery/:pictureId', PRODUCT_CONTROLLER.deletePictures);
     
+    // PRODUCT / INVENTORY
+    APP.get('/userproducts', PRODUCT_CONTROLLER.userProducts);
+    APP.get('/product/enable/:productId', PRODUCT_CONTROLLER.enable);
+    APP.get('/product/disable/:productId', PRODUCT_CONTROLLER.disable);
     APP.get('/product/search', PRODUCT_CONTROLLER.search);
     APP.get('/product/details/:productId', PRODUCT_CONTROLLER.getSingle);
     APP.post('/product/add', AUTH.isAuth, PRODUCT_CONTROLLER.add);

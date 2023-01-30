@@ -28,17 +28,21 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { ContactComponent } from './contact/contact.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
+
+import { ContactComponent } from './contact/contact.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { SanitizerUrlPipe } from '../pipes/sanitizer-url.pipe';
 import { PreviewComponent } from './preview/preview.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { InputDialogComponent } from './input-dialog/input-dialog.component';
 import { ProductComponent } from './product/product.component';
+import { ProductSpecificationComponent } from './product-specification/product-specification.component';
+import { ImageViewComponent } from './image-view/image-view.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +59,9 @@ import { ProductComponent } from './product/product.component';
     SanitizerUrlPipe,
     PreviewComponent,
     InputDialogComponent,
-    ProductComponent
+    ProductComponent,
+    ProductSpecificationComponent,
+    ImageViewComponent
   ],
   imports: [
     CommonModule,

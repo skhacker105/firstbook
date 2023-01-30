@@ -12,6 +12,7 @@ export class User {
     public commentsCount: number,
     public cart: Cart,
     public favoriteBooks: Book[],
-    public receipts: Receipt[]
+    public receipts: Receipt[],
+    public userItems?: string[]
   ) { }
 }

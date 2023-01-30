@@ -15,7 +15,7 @@
 
 <ng-template let-picture="picture" let-isMain="isMain" #imagepreview>
     <div class="product-images-container">
-        <img class="product-images" [src]="picture.image | sanitizerUrl">
+        <img class="product-images" [src]="picture.image | sanitizerUrl" (click)="handleImageClick(picture, isMain)">
     </div><br>
 
     <button mat-fab color="primary" class="preview-action preview-add" *ngIf="showActions"

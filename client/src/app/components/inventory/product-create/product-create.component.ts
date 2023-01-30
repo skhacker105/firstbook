@@ -344,7 +344,6 @@ export class ProductCreateComponent implements OnInit {
     let dialogRef = this.dialog.open(ConfirmationDialogComponent)
 
     dialogRef.afterClosed().subscribe((result: string) => {
-      console.log('result=', result)
       if (result)
         this.deleteSpec(index)
           .subscribe(res => {

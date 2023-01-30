@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { IsProductOwnerGuard } from 'src/app/core/guards/is-product-owner.guard';
 import { InventoryStoreComponent } from './inventory-store/inventory-store.component';
 import { ProductCreateComponent } from './product-create/product-create.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'edit/:productId',
+    canActivate: [IsProductOwnerGuard],
     component: ProductCreateComponent
   },
   {

@@ -1,14 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { ToastrService } from 'ngx-toastr';
 import { forkJoin, mergeMap, Observable, of } from 'rxjs';
+import { ConfirmationDialogData } from '../../models/confirmation-dialog.model';
 import { ItemImage } from '../../models/image';
 import { Product, ProductSpecification } from '../../models/product.model';
 import { ServerResponse } from '../../models/server-response.model';
+import { ISpecs } from '../../models/specs';
 import { User } from '../../models/user.model';
 import { HelperService } from '../../services/helper.service';
 import { ProductSpecsService } from '../../services/product-specs.service';
 import { ProductService } from '../../services/product.service';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ImageViewComponent } from '../image-view/image-view.component';
 
 @Component({
   selector: 'app-product',
@@ -20,6 +26,7 @@ export class ProductComponent implements OnInit {
   @Input('productId') id: string | undefined;
   product: Product | undefined;
   specs: ProductSpecification[] = [];
+  unique_specs: ISpecs[] = [];
   mainImage: ItemImage | undefined;
   images: ItemImage[] = [];
   customOptions: OwlOptions | undefined;
@@ -30,7 +37,9 @@ export class ProductComponent implements OnInit {
     private productService: ProductService,
     private productSpecsService: ProductSpecsService,
     private router: Router,
-    private helperService: HelperService
+    private helperService: HelperService,
+    public dialog: MatDialog,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -41,7 +50,7 @@ export class ProductComponent implements OnInit {
   }
 
   loadLoggedInUser() {
-    this.loggedInUser=this.helperService.getProfile();
+    this.loggedInUser = this.helperService.getProfile();
   }
 
   carouselOptions() {
@@ -82,12 +91,14 @@ export class ProductComponent implements OnInit {
           return forkJoin([
             this.loadProductSpecification(productRes.data),
             this.loadProductMainImage(productRes.data),
-            // this.loadProductImages(productRes.data)
+            this.loadProductImages(productRes.data)
           ])
         })
       ).subscribe((res: any) => {
         this.specs = res[0] ? res[0].data : [];
         this.mainImage = res[1] ? res[1].data : undefined;
+        this.images = res[2].map((r: any) => r.data)
+        this.divideSpecsByCategory();
       })
   }
 
@@ -107,15 +118,73 @@ export class ProductComponent implements OnInit {
     return forkJoin(r);
   }
 
-  goToDetail(){
+  divideSpecsByCategory() {
+    let unique_specs: ISpecs[] = [];
+    this.specs.forEach(spec => {
+      const us = unique_specs.find(s => s.name === spec.category);
+      if (us && us.categorySpecs) {
+        us.categorySpecs.push(spec);
+        us.count = us.count + 1;
+      } else {
+        unique_specs.push({
+          name: spec.category,
+          count: 0,
+          isOpen: true,
+          categorySpecs: [spec]
+        })
+      }
+    });
+    this.unique_specs = unique_specs;
+  }
+
+  goToDetail() {
+    if (this.product?.disabled) return;
     this.router.navigate([`/inventory/detail/${this.id}`]);
   }
 
-  goToEditDetail(){
+  goToEditDetail() {
     this.router.navigate([`/inventory/edit/${this.id}`]);
   }
 
   checkIfEditAllowed() {
     this.isEditAllowed = this.loggedInUser?._id === this.product?.createdBy;
+  }
+
+  handleEnableDisable(state: boolean) {
+    let confirmData = new ConfirmationDialogData('Are you sure to ' + (state ? 'enable' : 'disable') + ' this Item?');
+    let confirmSetRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: confirmData
+    });
+
+    confirmSetRef.afterClosed().subscribe((result: string) => {
+      if (result && state) this.enableProduct()
+      else if (result && !state) this.disableProduct()
+    });
+  }
+
+  enableProduct() {
+    if (!this.product) return;
+    this.productService
+      .enableProduct(this.product._id)
+      .subscribe(res => {
+        if (!this.product) return;
+        this.product['disabled'] = false;
+      });
+  }
+
+  disableProduct() {
+    if (!this.product) return;
+    this.productService
+      .disableProduct(this.product._id)
+      .subscribe(res => {
+        if (!this.product) return;
+        this.product['disabled'] = true;
+      })
+  }
+
+  handleImageClick(image: any) {
+    const imageViewRef=this.dialog.open(ImageViewComponent, {
+      data: image.image
+    });
   }
 }

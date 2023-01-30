@@ -1,37 +1,51 @@
-<mat-card class="example-card" *ngIf="product">
+<mat-card class="product-card" *ngIf="product" [ngClass]="{
+    'product-disabled' : product.disabled
+}">
     <mat-card-header>
-        <mat-card-title class="product-title" (click)="goToDetail()">
-            <button mat-mini-fab class="product-edit" (click)="goToEditDetail()">
+        <mat-card-title class="product-title">
+            <button mat-fab class="product-edit" *ngIf="!product.disabled && isEditAllowed" (click)="goToEditDetail()">
                 <mat-icon>edit</mat-icon>
             </button>
+            <button mat-fab class="product-enable-disable" *ngIf="!product.disabled && isEditAllowed"
+                (click)="handleEnableDisable(false)">
+                <mat-icon>visibility_off</mat-icon>
+            </button>
+            <button mat-fab class="product-edit" *ngIf="product.disabled && isEditAllowed" (click)="handleEnableDisable(true)">
+                <mat-icon>visibility_on</mat-icon>
+            </button>
             <span class="spacer"></span>
-            {{ product.name }}
+            <div (click)="goToDetail()">{{ product.name }}</div>
         </mat-card-title>
-        <mat-card-subtitle class="product-subtitle">
+        <mat-card-subtitle *ngIf="!product.disabled" class="product-subtitle">
             <ng-container *ngIf="!product.currentRating">No Ratings Available</ng-container>
             <ng-container *ngIf="product.currentRating">
                 {{ product.currentRating }} Stars
             </ng-container>
         </mat-card-subtitle>
     </mat-card-header>
-    <app-preview [customOptions]="customOptions" [mainImage]="mainImage" [showActions]="false"></app-preview>
+    <app-preview *ngIf="!product.disabled" [customOptions]="customOptions" [files]="images" [mainImage]="mainImage"
+        [showActions]="false" (imageClick)="handleImageClick($event)"></app-preview>
 
-    <mat-card-content>
+    <mat-card-content *ngIf="!product.disabled">
         <p align="justify" [innerHTML]="product.description">
         </p>
     </mat-card-content>
 
-    <mat-card-actions>
+    <mat-card-actions *ngIf="!product.disabled">
         <mat-expansion-panel class="product-action">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    
+                    <mat-icon>vertical_split</mat-icon>
                 </mat-panel-title>
                 <mat-panel-description>
                     Specifications
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            Specs
+            <div class="product-specs">
+                <ng-container *ngFor="let category of unique_specs">
+                    <app-product-specification [category]="category"></app-product-specification>
+                </ng-container>
+            </div>
         </mat-expansion-panel>
     </mat-card-actions>
 </mat-card>

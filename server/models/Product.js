@@ -4,13 +4,15 @@ const STRING = MONGOOSE.Schema.Types.String;
 const DATE = MONGOOSE.Schema.Types.Date;
 const NUMBER = MONGOOSE.Schema.Types.Number;
 const OBJECT_ID = MONGOOSE.Schema.Types.ObjectId;
+const BOOLEAN = MONGOOSE.Schema.Types.Boolean;
 
 const PRODUCT_SCHEMA = MONGOOSE.Schema({
     name: { type: STRING, required: true },
     description: { type: STRING, default: '' },
     images: [{ type: STRING }],
     defaultImage: { type: STRING },
-    specifications: [{ type: OBJECT_ID, ref: 'ProductSpec'}],
+    disabled: { type: BOOLEAN, default: false },
+    specifications: [{ type: OBJECT_ID, ref: 'ProductSpec' }],
     createdBy: { type: OBJECT_ID, ref: 'User' },
     creationDate: { type: DATE, default: Date.now },
     currentRating: { type: NUMBER, default: 0 },

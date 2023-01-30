@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 // Services
 import { HelperService } from '../../../core/services/helper.service';
 import { CartService } from '../../../core/services/cart.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-navigation',
@@ -36,7 +37,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private helperService: HelperService,
-    private cartService: CartService
+    private cartService: CartService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -122,6 +124,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.username = undefined;
     this.isAdmin = undefined;
     this.cartItems = undefined;
+    this.userService.logout();
     this.helperService.clearSession();
     this.helperService.isUserLogged.next(false);
   }

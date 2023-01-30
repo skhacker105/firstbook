@@ -7,6 +7,9 @@ import { Product } from '../models/product.model';
 import { ServerResponse } from '../models/server-response.model';
 
 const domain = environment.api;
+const userProductEndpoint = domain + 'userproducts';
+const enableProductEndpoint = domain + 'product/enable/';
+const disableProductEndpoint = domain + 'product/disable/';
 const getSingleProductEndpoint = domain + 'product/details/';
 const createProductEndpoint = domain + 'product/add';
 const editProductEndpoint = domain + 'product/edit/';
@@ -26,6 +29,18 @@ const getImageEndpoint = domain + 'picture/';
 export class ProductService {
 
   constructor(private http: HttpClient) { }
+
+  userProducts(): Observable<ServerResponse<string[]>> {
+    return this.http.get<ServerResponse<string[]>>(userProductEndpoint);
+  }
+
+  enableProduct(id: string): Observable<ServerResponse<Product>> {
+    return this.http.get<ServerResponse<Product>>(enableProductEndpoint + id);
+  }
+
+  disableProduct(id: string): Observable<ServerResponse<Product>> {
+    return this.http.get<ServerResponse<Product>>(disableProductEndpoint + id);
+  }
 
   getSingleProduct(id: string): Observable<ServerResponse<Product>> {
     return this.http.get<ServerResponse<Product>>(getSingleProductEndpoint + id);

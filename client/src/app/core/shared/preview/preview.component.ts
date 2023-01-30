@@ -15,6 +15,7 @@ export class PreviewComponent {
   @Output() deleteMainImage = new EventEmitter<any>();
   @Output() deleteImage = new EventEmitter<string>();
   @Output() setMainImage = new EventEmitter<string>();
+  @Output() imageClick = new EventEmitter<{ image: ItemImage, isMain: boolean }>();
 
 
   handleDeleteMainMenu() {
@@ -27,5 +28,9 @@ export class PreviewComponent {
 
   handleSetMainImage(id: string) {
     this.setMainImage.emit(id);
+  }
+
+  handleImageClick(image: ItemImage, isMain: boolean) {
+    this.imageClick.emit({ image, isMain });
   }
 }

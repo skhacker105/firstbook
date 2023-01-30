@@ -1,7 +1,10 @@
-.example-card {
-    max-width: 400px;
+.product-card {
     margin-top: 10px;
     margin-bottom: 20px;
+}
+
+.product-disabled {
+    background-color: #808080;
 }
 
 .product-title {
@@ -26,6 +29,21 @@
     right: 10px;
 }
 
+.product-enable-disable {
+    position: absolute;
+    z-index: 100;
+    right: 10px;
+    top: 80px;
+}
+
 .product-action {
     width: 100%;
+    background-image: linear-gradient(to bottom,#ffaef1,#f7bcf8,#e5bfee,#f6c4e5,#ffccde)
+}
+
+.product-specs {
+    width: 100%;
+    max-height: 300px;
+    overflow: auto;
+    background-color: #f7f7ff;
 }

@@ -5,6 +5,10 @@ module.exports = {
     getAuthUserId: (req) => {
         return ENCRYPTION.parseJwt(req.headers.authorization).sub.id;
     },
+    
+    isAdmin: (req) => {
+        return ENCRYPTION.parseJwt(req.headers.authorization).sub.isAdmin;
+    },
 
     saveImage: (path, image, cb) => {
         var base64Data = image.replace(/^data:([A-Za-z-+\/]+);base64,/, "");

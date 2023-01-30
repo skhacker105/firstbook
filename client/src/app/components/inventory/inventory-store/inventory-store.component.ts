@@ -13,6 +13,7 @@ export class InventoryStoreComponent implements OnInit, OnDestroy {
 
   productIds: string[] = [];
   currentQuery: string = '';
+  mybreakpoint: number = 1;
   pageSize = 15;
   currentPage = 1;
   total = 30;
@@ -27,6 +28,7 @@ export class InventoryStoreComponent implements OnInit, OnDestroy {
     ) {}
 
   ngOnInit(): void {
+    this.calculateBreakpoint(window.innerWidth);
     this.helperService.setAddEntityConfig('/inventory/create');
     this.routeChangeSub$ = this.route.params.subscribe((params) => {
       this.currentQuery = params['query'] ? params['query'] : '';
@@ -38,6 +40,14 @@ export class InventoryStoreComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.currentPage = 1;
       });
+  }
+
+  handleResize(event: any) {
+    this.calculateBreakpoint(event.target.innerWidth);
+  }
+
+  calculateBreakpoint(width: number) {
+    this.mybreakpoint = width <= 400 ? 1 : width <= 800 ? 3 : 4;
   }
 
   initRequest(query: string): void {

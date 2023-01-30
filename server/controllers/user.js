@@ -27,7 +27,7 @@ function validateRegisterForm(payload) {
         errors.name = 'Please provide your name.';
     }
 
-    if (payload.avatar.trim().length !== 0) {
+    if (payload.avatar && payload.avatar.trim().length !== 0) {
         if (!VALIDATOR.isURL(payload.avatar)) {
             isFormValid = false;
             errors.avatar = 'Please provide a valid link to your avatar image or leave the field empty.';

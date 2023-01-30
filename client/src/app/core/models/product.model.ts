@@ -7,6 +7,7 @@ export class Product {
         public description?: string,
         public images?: string[],
         public defaultImage?: string,
+        public disabled?: boolean,
         public createdBy?: string,
         public creationDate?: Date,
         public currentRating?: number,
