@@ -24,7 +24,6 @@ const routes: Routes = [
   },
   {
     path: 'inventory',
-    canActivate: [IsAuthenticatedGuard],
     loadChildren: () => import('./components/inventory/inventory.module').then(m => m.InventoryModule)
   },
   {

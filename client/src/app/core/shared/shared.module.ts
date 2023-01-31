@@ -116,7 +116,8 @@ import { ProductCommentComponent } from './product-comment/product-comment.compo
     ProductComponent,
     ProductSpecificationComponent,
     ProductCommentComponent,
-    MatChipsModule
+    MatChipsModule,
+    StarRatingComponent
   ]
 })
 export class SharedModule { }

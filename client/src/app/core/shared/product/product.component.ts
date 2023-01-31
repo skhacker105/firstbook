@@ -136,8 +136,6 @@ export class ProductComponent implements OnInit {
   }
 
   goToDetail() {
-    console.log('this.id=', this.id);
-    console.log('this.product=', this.product);
     if (this.product?.disabled) return;
     this.router.navigateByUrl(`/inventory/detail/${this.id}`);
   }

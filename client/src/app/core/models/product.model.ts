@@ -12,6 +12,7 @@ export class Product {
         public createdBy?: string,
         public creationDate?: Date,
         public currentRating?: number,
+        public ratedBy?: string[],
         public ratingPoints?: number,
         public ratedCount?: number,
         public comments?: Comment[]

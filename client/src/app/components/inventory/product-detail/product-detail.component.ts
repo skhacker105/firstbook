@@ -20,7 +20,7 @@ export class ProductDetailComponent implements OnInit {
 
   id: string | null | undefined;
   product: Product | undefined;
-  unique_specs: ISpecs[] =[];
+  unique_specs: ISpecs[] = [];
   mainImage: ItemImage | undefined;
   images: ItemImage[] = [];
   customOptions: OwlOptions | undefined;
@@ -33,16 +33,16 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private productSpecsService : ProductSpecsService,
+    private productSpecsService: ProductSpecsService,
     private router: Router,
-    private helperService: HelperService) {}
+    private helperService: HelperService) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('productId');
     this.isLogged = this.helperService.isLoggedIn();
     this.isAdmin = this.helperService.isAdmin();
     this.userId = this.helperService.getProfile()?.id;
-    
+
     this.loadLoggedInUser();
     this.carouselOptions();
     this.loadProduct();
@@ -157,6 +157,16 @@ export class ProductDetailComponent implements OnInit {
 
   loadLoggedInUser() {
     this.loggedInUser = this.helperService.getProfile();
+  }
+
+  rateProduct(rating: number) {
+    if (!this.id) return;
+    this.productService
+      .rateProduct(this.id, { rating: rating })
+      .subscribe((res) => {
+        if (!this.product || !res.data) return;
+        this.product = res.data;
+      });
   }
 
 }
