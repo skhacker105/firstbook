@@ -6,9 +6,15 @@ module.exports = {
         });
     },
 
-    error: (res, message) => {
+    unauthorized: (res, message, errors = null) => {
+        return res.status(401).json({
+            message, errors
+        });
+    },
+
+    error: (res, message, errors = null) => {
         return res.status(400).json({
-            message
+            message, errors
         });
     },
 

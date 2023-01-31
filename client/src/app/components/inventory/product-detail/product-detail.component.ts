@@ -26,6 +26,9 @@ export class ProductDetailComponent implements OnInit {
   customOptions: OwlOptions | undefined;
   isEditAllowed: boolean = false;
   loggedInUser: User | undefined;
+  isAdmin = false;
+  userId: string | undefined;
+  isLogged: boolean | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +39,10 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('productId');
+    this.isLogged = this.helperService.isLoggedIn();
+    this.isAdmin = this.helperService.isAdmin();
+    this.userId = this.helperService.getProfile()?.id;
+    
     this.loadLoggedInUser();
     this.carouselOptions();
     this.loadProduct();
@@ -90,13 +97,9 @@ export class ProductDetailComponent implements OnInit {
         loadedProduct.specifications = specsRes.data ? specsRes.data : [];
         const new_unique_specs: ISpecs[] = [];
         specsRes.data?.forEach(d => {
-          let obj = new_unique_specs.find(s => s.name === d.category)
-          if (!obj) {
-          }
           this.updateSpecData(new_unique_specs, d);
         });
         this.unique_specs = new_unique_specs;
-        console.log('unique_specs=',this.unique_specs)
       });
   }
 

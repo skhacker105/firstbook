@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
-import { ToastrService } from 'ngx-toastr';
 import { forkJoin, mergeMap, Observable, of } from 'rxjs';
 import { ConfirmationDialogData } from '../../models/confirmation-dialog.model';
 import { ItemImage } from '../../models/image';
@@ -38,8 +37,7 @@ export class ProductComponent implements OnInit {
     private productSpecsService: ProductSpecsService,
     private router: Router,
     private helperService: HelperService,
-    public dialog: MatDialog,
-    private toastr: ToastrService
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -138,8 +136,10 @@ export class ProductComponent implements OnInit {
   }
 
   goToDetail() {
+    console.log('this.id=', this.id);
+    console.log('this.product=', this.product);
     if (this.product?.disabled) return;
-    this.router.navigate([`/inventory/detail/${this.id}`]);
+    this.router.navigateByUrl(`/inventory/detail/${this.id}`);
   }
 
   goToEditDetail() {

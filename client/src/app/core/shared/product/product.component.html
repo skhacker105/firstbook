@@ -3,17 +3,24 @@
 }">
     <mat-card-header>
         <mat-card-title class="product-title">
-            <button mat-fab class="product-edit" *ngIf="!product.disabled && isEditAllowed" (click)="goToEditDetail()">
-                <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-fab class="product-enable-disable" *ngIf="!product.disabled && isEditAllowed"
-                (click)="handleEnableDisable(false)">
-                <mat-icon>visibility_off</mat-icon>
-            </button>
-            <button mat-fab class="product-edit" *ngIf="product.disabled && isEditAllowed" (click)="handleEnableDisable(true)">
-                <mat-icon>visibility_on</mat-icon>
-            </button>
-            <span class="spacer"></span>
+            <p align="end">
+                <button mat-fab extended color="none" class="product-edit" *ngIf="!product.disabled && isEditAllowed"
+                    (click)="goToEditDetail()">
+                    <mat-icon>edit</mat-icon>
+                    Edit
+                </button>
+                <button mat-fab extended color="none" class="product-disable" *ngIf="!product.disabled && isEditAllowed"
+                    (click)="handleEnableDisable(false)">
+                    <mat-icon>visibility_off</mat-icon>
+                    Disable
+                </button>
+                <button mat-fab extended color="primary" class="product-enable" *ngIf="product.disabled && isEditAllowed"
+                    (click)="handleEnableDisable(true)">
+                    <mat-icon>visibility_on</mat-icon>
+                    Enable
+                </button>
+            </p>
+
             <div (click)="goToDetail()">{{ product.name }}</div>
         </mat-card-title>
         <mat-card-subtitle *ngIf="!product.disabled" class="product-subtitle">

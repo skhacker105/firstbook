@@ -18,5 +18,20 @@ module.exports = {
 
     deleteImage: (path, cb) => {
         FS.unlink(path, cb);
+    },
+
+    validateCommentForm(payload) {
+        let errors = {};
+        let isFormValid = true;
+    
+        if (!payload || typeof payload.content !== 'string' || payload.content.trim().length < 3) {
+            isFormValid = false;
+            errors.content = 'Comment must be more than 3 symbols long.';
+        }
+    
+        return {
+            success: isFormValid,
+            errors
+        };
     }
 };

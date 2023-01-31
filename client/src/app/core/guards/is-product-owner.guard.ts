@@ -19,7 +19,6 @@ export class IsProductOwnerGuard implements CanLoad, CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      console.log('return = ', this.userService.getProducts());
     return this.helperService.isAdmin() || this.userService.isOwnerOfProduct(route.params['productId']);
   }
 }

@@ -42,17 +42,23 @@ module.exports = (APP) => {
     APP.post('/contact/addToFavorites/:contactId', AUTH.isAuth, CONTACT_CONTROLLER.addToFavorites);
 
     // PRODUCT IMAGEs
-    APP.post('/product/picture', PRODUCT_CONTROLLER.addMainPicture);
+    APP.post('/product/picture', AUTH.isAuth, PRODUCT_CONTROLLER.addMainPicture);
     APP.get('/picture/:pictureId', PRODUCT_CONTROLLER.getPicture);
-    APP.delete('/product/picture/:productId', PRODUCT_CONTROLLER.deleteMainPicture);
+    APP.delete('/product/picture/:productId', AUTH.isAuth, PRODUCT_CONTROLLER.deleteMainPicture);
     
-    APP.post('/product/gallery', PRODUCT_CONTROLLER.addPictures);
+    APP.post('/product/gallery', AUTH.isAuth, PRODUCT_CONTROLLER.addPictures);
     APP.delete('/product/gallery/:pictureId', PRODUCT_CONTROLLER.deletePictures);
+
+    // PRODUCT COMMENTS
+    APP.get('/product/comment/:productId/:skipCount', COMMENT_CONTROLLER.getComments);
+    APP.post('/product/comment/add/:productId', AUTH.isAuth, PRODUCT_CONTROLLER.postComment);
+    APP.put('/product/comment/edit/:commentId', AUTH.isAuth, PRODUCT_CONTROLLER.editComment);
+    APP.delete('/product/comment/delete/:commentId', AUTH.isAuth, PRODUCT_CONTROLLER.deleteComment);
     
     // PRODUCT / INVENTORY
     APP.get('/userproducts', PRODUCT_CONTROLLER.userProducts);
-    APP.get('/product/enable/:productId', PRODUCT_CONTROLLER.enable);
-    APP.get('/product/disable/:productId', PRODUCT_CONTROLLER.disable);
+    APP.get('/product/enable/:productId', AUTH.isAuth, PRODUCT_CONTROLLER.enable);
+    APP.get('/product/disable/:productId', AUTH.isAuth, PRODUCT_CONTROLLER.disable);
     APP.get('/product/search', PRODUCT_CONTROLLER.search);
     APP.get('/product/details/:productId', PRODUCT_CONTROLLER.getSingle);
     APP.post('/product/add', AUTH.isAuth, PRODUCT_CONTROLLER.add);
@@ -67,6 +73,7 @@ module.exports = (APP) => {
     APP.put('/specs/:productspecId', PRODUCTSPECS_CONTROLLER.edit);
     APP.delete('/specs/:productspecId', PRODUCTSPECS_CONTROLLER.delete);
 
+    // COMMENTS
     APP.get('/comment/getLatestFiveByUser/:userId', AUTH.isAuth, COMMENT_CONTROLLER.getLatestFiveByUser);
     APP.get('/comment/:bookId/:skipCount', COMMENT_CONTROLLER.getComments);
     APP.post('/comment/add/:bookId', AUTH.isAuth, COMMENT_CONTROLLER.add);

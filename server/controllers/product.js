@@ -3,6 +3,8 @@ const HELPER = require('../utilities/helper');
 const HTTP = require('../utilities/HTTP');
 const PRODUCT = require('mongoose').model('Product');
 const IMAGE = require('mongoose').model('Image');
+const USER = require('mongoose').model('User');
+const COMMENT = require('mongoose').model('Comment');
 const imageToBase64 = require('image-to-base64');
 
 const PAGE_LIMIT = 15;
@@ -147,6 +149,126 @@ module.exports = {
 
             });
         });
+    },
+
+
+
+    postComment: (req, res) => {
+        let productId = req.params.productId;
+        let userId = req.user.id;
+        let comment = req.body.content;
+
+        let validationResult = HELPER.validateCommentForm(req.body);
+
+        if (!validationResult.success) {
+            return HTTP.error(res, 'Comment form validation failed!', validationResult.errors)
+        }
+
+        USER.findById(userId).then((user) => {
+            if (!user || user.isCommentsBlocked) {
+                return HTTP.unauthorized(res, 'Sorry, but you\'re not allowed to comment on products')
+            }
+
+            PRODUCT.findById(productId).then((product) => {
+                if (!product) {
+                    return HTTP.error(res, 'There is no product with the given id in our database.')
+                }
+
+                COMMENT.create({ content: comment }).then((newComment) => {
+                    product.comments.push(newComment._id);
+                    newComment.product = product._id;
+                    newComment.user = userId;
+                    user.commentsCount += 1;
+
+                    user.save();
+                    product.save();
+                    newComment.save().then(() => {
+                        COMMENT
+                            .findById(newComment._id)
+                            .populate({ path: 'user', select: 'username avatar' })
+                            .then((comment) => {
+                                return HTTP.success(res, comment, 'Comment posted successfully!')
+                            });
+                    });
+                })
+                    .catch(err => HTTP.handleError(res, err));
+            });
+        });
+    },
+
+    editComment: (req, res) => {
+        let commentId = req.params.commentId;
+        let userId = req.user.id;
+        let editedComment = req.body.content;
+
+        let validationResult = validateCommentForm(req.body);
+
+        if (!validationResult.success)
+            return HTTP.error(res, 'Comment form validation failed!', validationResult.errors);
+
+        USER.findById(userId).then((user) => {
+            if (!user || user.isCommentsBlocked)
+                return HTTP.unauthorized(res, 'Sorry, but you\'re not allowed to comment on products');
+
+            COMMENT
+                .findById(commentId)
+                .populate({ path: 'user', select: 'username avatar' })
+                .then((comment) => {
+                    if (!comment)
+                        return HTTP.err(res, 'There is no comment with the given id in our database.');
+
+                    if (comment.user._id.toString() !== userId && !req.user.isAdmin)
+                        return HTTP.unauthorized(res, 'You\'re not allowed to edit other user comments!');
+
+                    comment.content = editedComment;
+                    comment.save();
+
+                    return HTTP.success(res, comment, 'Comment edited successfully!');
+                })
+                .catch(err => HTTP.handleError(res, err));
+        });
+    },
+
+    deleteComment: (req, res) => {
+        let commentId = req.params.commentId;
+        let userId = req.user.id;
+
+        COMMENT.findById(commentId).then((comment) => {
+            if (!comment)
+                return HTTP.error(res, 'There is no comment with the given id in our database.');
+
+            if (comment.user.toString() !== userId && !req.user.isAdmin)
+                return HTTP.unauthorized(res, 'You\'re not allowed to delete other user comments!');
+
+            COMMENT.findByIdAndRemove(comment._id).then(() => {
+                PRODUCT.update({ _id: comment.product }, { $pull: { comments: comment._id } }).then(() => {
+                    USER.findById(req.user.id).then((user) => {
+                        user.commentsCount -= 1;
+                        user.save();
+                        return HTTP.success(res, 'Comment deleted successfully!');
+                    });
+                });
+            });
+        })
+            .catch(err => HTTP.handleError(res, err));
+    },
+
+    getComments: (req, res) => {
+        let productId = req.params.productId;
+        let skipCount = !isNaN(Number(req.params.skipCount))
+            ? Number(req.params.skipCount)
+            : 0;
+
+        COMMENT
+            .find({ product: productId })
+            .populate({ path: 'user', select: 'username avatar' })
+            .sort({ creationDate: -1 })
+            .skip(skipCount)
+            .limit(PAGE_LIMIT)
+            .then((comments) => {
+                HTTP.success(res, comments);
+            })
+            .catch(err => HTTP.handleError(res, err));
     },
 
 
@@ -308,6 +430,7 @@ module.exports = {
                     .skip(searchParams.skip)
                     .limit(searchParams.limit)
                     .then((result) => {
+                        console.log('result = ', result);
                         result = result.map(r => r._id);
                         return res.status(200).json({
                             message: '',

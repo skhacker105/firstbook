@@ -24,16 +24,7 @@
 }
 
 .product-edit {
-    position: absolute;
-    z-index: 100;
-    right: 10px;
-}
-
-.product-enable-disable {
-    position: absolute;
-    z-index: 100;
-    right: 10px;
-    top: 80px;
+    margin-right: 10px;
 }
 
 .product-action {

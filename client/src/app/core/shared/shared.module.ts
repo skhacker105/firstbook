@@ -32,6 +32,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 import { ContactComponent } from './contact/contact.component';
@@ -43,6 +44,8 @@ import { InputDialogComponent } from './input-dialog/input-dialog.component';
 import { ProductComponent } from './product/product.component';
 import { ProductSpecificationComponent } from './product-specification/product-specification.component';
 import { ImageViewComponent } from './image-view/image-view.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
+import { ProductCommentComponent } from './product-comment/product-comment.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +64,9 @@ import { ImageViewComponent } from './image-view/image-view.component';
     InputDialogComponent,
     ProductComponent,
     ProductSpecificationComponent,
-    ImageViewComponent
+    ImageViewComponent,
+    StarRatingComponent,
+    ProductCommentComponent
   ],
   imports: [
     CommonModule,
@@ -79,7 +84,8 @@ import { ImageViewComponent } from './image-view/image-view.component';
     MatSelectModule,
     MatDialogModule,
     MatButtonToggleModule,
-    CarouselModule
+    CarouselModule,
+    MatChipsModule
   ],
   exports: [
     CommentComponent,
@@ -108,7 +114,9 @@ import { ImageViewComponent } from './image-view/image-view.component';
     CarouselModule,
     InputDialogComponent,
     ProductComponent,
-    ProductSpecificationComponent
+    ProductSpecificationComponent,
+    ProductCommentComponent,
+    MatChipsModule
   ]
 })
 export class SharedModule { }

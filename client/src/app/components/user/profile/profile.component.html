@@ -26,7 +26,7 @@
               <tbody>
                 <tr *ngFor="let c of comments">
                   <td>
-                    {{c.content | shortenString:100}} <a routerLink="/book/details/{{c.book._id}}">{{c.book.title}}</a>
+                    {{c.content | shortenString:100}} <a routerLink="/book/details/{{c.book?._id}}">{{c.book?.title}}</a>
                   </td>
                 </tr>
               </tbody>
