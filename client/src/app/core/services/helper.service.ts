@@ -17,7 +17,6 @@ export class HelperService {
   isUserLogged = new Subject<boolean>();
   searchQuery = new Subject<string>();
   cartStatus = new Subject<string>();
-  addEntity = new BehaviorSubject<AddEntity | undefined>(undefined);
 
   saveSession(token: any): void {
     localStorage.setItem('token', token);
@@ -67,13 +66,5 @@ export class HelperService {
   getToken(): string {
     let val = localStorage.getItem('token');
     return val ? val : '';
-  }
-
-  setAddEntityConfig(url: string) {
-    this.addEntity.next({ url });
-  }
-
-  resetAddEntityConfig() {
-    this.addEntity.next(undefined);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AddEntity } from 'src/app/core/models/add-entity.model';
 import { HelperService } from 'src/app/core/services/helper.service';
 import { ProductService } from 'src/app/core/services/product.service';
 
@@ -20,6 +21,7 @@ export class InventoryStoreComponent implements OnInit, OnDestroy {
   maxPages = 8;
   querySub$: Subscription | undefined;
   routeChangeSub$: Subscription | undefined;
+  addEntity: AddEntity = { url: '/inventory/create'};
 
   constructor(
     private helperService: HelperService,
@@ -29,7 +31,6 @@ export class InventoryStoreComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.calculateBreakpoint(window.innerWidth);
-    this.helperService.setAddEntityConfig('/inventory/create');
     this.routeChangeSub$ = this.route.params.subscribe((params) => {
       this.currentQuery = params['query'] ? params['query'] : '';
       this.initRequest(this.currentQuery);
@@ -81,7 +82,6 @@ export class InventoryStoreComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routeChangeSub$ ? this.routeChangeSub$.unsubscribe() : null;
     this.querySub$ ? this.querySub$.unsubscribe() : null;
-    this.helperService.resetAddEntityConfig();
   }
 
 }

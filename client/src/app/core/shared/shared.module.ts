@@ -46,6 +46,7 @@ import { ProductSpecificationComponent } from './product-specification/product-s
 import { ImageViewComponent } from './image-view/image-view.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { ProductCommentComponent } from './product-comment/product-comment.component';
+import { AddEntityTriggerComponent } from './add-entity-trigger/add-entity-trigger.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { ProductCommentComponent } from './product-comment/product-comment.compo
     ProductSpecificationComponent,
     ImageViewComponent,
     StarRatingComponent,
-    ProductCommentComponent
+    ProductCommentComponent,
+    AddEntityTriggerComponent
   ],
   imports: [
     CommonModule,
@@ -117,7 +119,8 @@ import { ProductCommentComponent } from './product-comment/product-comment.compo
     ProductSpecificationComponent,
     ProductCommentComponent,
     MatChipsModule,
-    StarRatingComponent
+    StarRatingComponent,
+    AddEntityTriggerComponent
   ]
 })
 export class SharedModule { }

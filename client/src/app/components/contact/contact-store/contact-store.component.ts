@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AddEntity } from 'src/app/core/models/add-entity.model';
 import { Contact } from 'src/app/core/models/contact.model';
 import { ContactService } from 'src/app/core/services/contact.service';
 import { HelperService } from 'src/app/core/services/helper.service';
@@ -26,6 +27,7 @@ export class ContactStoreComponent implements OnInit, OnDestroy {
   contacts: Contact[] = [];
   groupView = false;
   typeGroups: IType[] = [];
+  addEntity: AddEntity = { url: '/contact/create'};
 
   constructor(
     private route: ActivatedRoute,
@@ -34,7 +36,6 @@ export class ContactStoreComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.helperService.setAddEntityConfig('/contact/create');
     this.routeChangeSub$ = this.route.params.subscribe((params) => {
       this.currentQuery = params['query'] ? params['query'] : '';
       this.initRequest(this.currentQuery);
@@ -50,7 +51,6 @@ export class ContactStoreComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routeChangeSub$ ? this.routeChangeSub$.unsubscribe() : null;
     this.querySub$ ? this.querySub$.unsubscribe() : null;
-    this.helperService.resetAddEntityConfig();
   }
 
   initRequest(query: string): void {
