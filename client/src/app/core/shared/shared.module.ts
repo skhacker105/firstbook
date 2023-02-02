@@ -33,7 +33,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { ContactComponent } from './contact/contact.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
@@ -87,7 +88,9 @@ import { AddEntityTriggerComponent } from './add-entity-trigger/add-entity-trigg
     MatDialogModule,
     MatButtonToggleModule,
     CarouselModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSlideToggleModule,
+    MatToolbarModule
   ],
   exports: [
     CommentComponent,
@@ -120,7 +123,9 @@ import { AddEntityTriggerComponent } from './add-entity-trigger/add-entity-trigg
     ProductCommentComponent,
     MatChipsModule,
     StarRatingComponent,
-    AddEntityTriggerComponent
+    AddEntityTriggerComponent,
+    MatSlideToggleModule,
+    MatToolbarModule
   ]
 })
 export class SharedModule { }

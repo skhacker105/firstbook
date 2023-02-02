@@ -14,6 +14,7 @@ import { ReceiptsComponent } from './receipts/receipts.component';
 // Guards
 import { IsAnonymousGuard } from '../../core/guards/is-anonymous.guard';
 import { IsAuthenticatedGuard } from '../../core/guards/is-authenticated.guard';
+import { IsAdminOrProfileOwnerGuard } from 'src/app/core/guards/is-admin-or-profile-owner.guard';
 
 const userRoutes: Routes = [
   {
@@ -24,6 +25,11 @@ const userRoutes: Routes = [
   {
     path: 'profile/:username',
     canActivate: [IsAuthenticatedGuard],
+    component: ProfileComponent
+  },
+  {
+    path: 'profile/edit/:username',
+    canActivate: [IsAuthenticatedGuard, IsAdminOrProfileOwnerGuard],
     component: ProfileComponent
   },
   {

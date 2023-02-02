@@ -82,6 +82,7 @@ app-product>mat-card {
   font-size: 1.1em;
 }
 
+.full-width,
 .username,
 .email,
 .pass,

@@ -19,6 +19,7 @@ const baseUrl = environment.api + 'user';
 const registerEndpoint = baseUrl + '/register';
 const loginEndpoint = baseUrl + '/login';
 const profileEndpoint = baseUrl + '/profile/';
+const updateProfileEndpoint = baseUrl + '/profile';
 const getPurchaseHistoryEndpoint = baseUrl + '/purchaseHistory';
 const changeAvatarEndpoint = baseUrl + '/changeAvatar';
 const blockCommentsEndpoint = baseUrl + '/blockComments/';
@@ -75,6 +76,10 @@ export class UserService {
 
   getProfile(username: string): Observable<ServerResponse<User>> {
     return this.http.get<ServerResponse<User>>(profileEndpoint + username);
+  }
+
+  updateProfile(payload: User): Observable<ServerResponse<any>> {
+    return this.http.post<ServerResponse<string>>(updateProfileEndpoint, payload);
   }
 
   getPurchaseHistory(): Observable<ServerResponse<Receipt[]>> {

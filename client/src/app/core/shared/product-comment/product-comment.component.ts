@@ -12,6 +12,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogData } from '../../models/confirmation-dialog.model';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { User } from '../../models/user.model';
+import { HelperService } from '../../services/helper.service';
 
 @Component({
   selector: 'app-product-comment',
@@ -31,13 +33,13 @@ export class ProductCommentComponent implements OnInit {
   comments: Comment[] = [];
   isFromEdit: boolean = false;
   lastEditId: string | undefined;
-  // lastDeleteId: string | undefined;
   action: string | undefined;
 
   constructor(
     private productService: ProductService,
     private modalService: BsModalService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private helperService: HelperService
   ) { }
 
   ngOnInit(): void {
@@ -140,6 +142,11 @@ export class ProductCommentComponent implements OnInit {
       .subscribe(() => {
         this.comments = this.comments.filter(c => c._id !== delId);
       });
+  }
+
+  getUserName(c: Comment): string {
+    if (this.helperService.getProfile()?.id === c.user._id) return 'ME'
+    return c.user.username;
   }
 
 }

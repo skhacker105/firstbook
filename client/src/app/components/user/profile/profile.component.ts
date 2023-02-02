@@ -2,10 +2,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 // Router
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 // Forms
-import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl, Validators, FormBuilder } from '@angular/forms';
 
 // Services
 import { UserService } from '../../../core/services/user.service';
@@ -35,22 +35,28 @@ export class ProfileComponent implements OnInit, OnDestroy {
       Validators.required,
       isUrlValidator
     ])
-  });;
+  });
   routeChangeSub$: Subscription | undefined;
   currentUserId: string | undefined;
   isAdmin: boolean = false;
+  editUserForm: FormGroup | undefined;
+  editable = false;
+  ownProfile = false;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private commentService: CommentService,
     private userService: UserService,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.evaluateEditable();
     this.routeChangeSub$ = this.route.params.subscribe((params) => {
       let username = params['username'];
-      if (username === 'mine') {
+      if (username === 'ME') {
         username = this.helperService.getProfile()?.username;
       }
 
@@ -58,6 +64,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
         .getProfile(username)
         .subscribe((res) => {
           this.user = res.data;
+          this.isAdmin = this.helperService.isAdmin() && this.helperService.getProfile()?.id != this.user?.id;
+          this.ownProfile = this.helperService.getProfile()?.username === this.user?.username
+
+          this.initUserForm(this.user);
           this.getComments();
         });
     });
@@ -65,6 +75,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.isAdmin = this.helperService.isAdmin();
     this.currentUserId = this.helperService.getProfile()?.id;
 
+  }
+
+  evaluateEditable() {
+    this.route.url.subscribe(urlSegments => {
+      this.editable = urlSegments.some(seg => seg.path === 'edit');
+    });
+  }
+
+  initUserForm(user?: User) {
+    this.editUserForm = this.fb.group({
+      id: new FormControl(user?.id),
+      isCommentsBlocked: new FormControl(user?.isCommentsBlocked),
+      firstName: new FormControl({ value: user?.firstName, disabled: !this.editable }),
+      lastName: new FormControl({ value: user?.lastName, disabled: !this.editable }),
+      contact1: new FormControl({ value: user?.contact1, disabled: !this.editable }),
+      contact2: new FormControl({ value: user?.contact2, disabled: !this.editable }),
+      address: new FormControl({ value: user?.address, disabled: !this.editable })
+    });
   }
 
   ngOnDestroy(): void {
@@ -81,7 +109,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    this.changeUserAvatar();
+    if (!this.editUserForm) return
+    this.userService.updateProfile(this.editUserForm.value)
+      .subscribe(res => {
+        if (!this.user) return;
+        if (this.user.isCommentsBlocked != this.editUserForm?.controls['isCommentsBlocked'].value)
+          this.editUserForm?.controls['isCommentsBlocked'].value ? this.blockComments(this.user.id) : this.unblockComments(this.user.id);
+        this.router.navigate(['/user/profile/', this.user.username]);
+      });
+  }
+
+  handleCommentBlockChange() {
+    if (this.editable || !this.isAdmin || !this.user) return;
+    this.editUserForm?.controls['isCommentsBlocked'].value ? this.blockComments(this.user.id) : this.unblockComments(this.user.id);
   }
 
   changeUserAvatar(): void {

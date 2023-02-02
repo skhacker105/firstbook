@@ -7,12 +7,18 @@ export class User {
     public username: string,
     public avatar: string,
     public isAdmin: boolean,
+    public isCommentsBlocked: boolean,
     public _id: string,
     public id: string,
     public commentsCount: number,
     public cart: Cart,
     public favoriteBooks: Book[],
     public receipts: Receipt[],
-    public userItems?: string[]
+    public userItems?: string[],
+    public firstName?: string,
+    public lastName?: string,
+    public contact1?: string,
+    public contact2?: string,
+    public address?: string
   ) { }
 }

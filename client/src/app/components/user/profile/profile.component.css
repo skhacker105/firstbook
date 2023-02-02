@@ -1,31 +1,28 @@
-#profile {
-  margin-top: 40px !important;
+.product-comments {
+  width: 100%;
+  padding: 10px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  text-align: left;
+  border-top: solid 1px #acacac;
 }
 
-#avatar {
-  width: 150px;
-  height: 150px;
+.comment-title {
+  text-align: left;
+  padding-bottom: 10px;
+  padding-left: 0px;
 }
 
-#avatar-input {
-  width: 50%;
-  margin: 10px auto;
+.comment-content {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-.admin-panel button {
-  margin-left: 5px;
+.comment-form mat-slide-toggle {
+  margin: 8px 0;
+  display: block;
 }
 
-.favorite-books {
-  margin-bottom: 30px;
-}
-
-.favorite-books h2 {
-  font-family: 'Wendy One', sans-serif;
-  font-size: 30px;
-  font-weight: bold;
-}
-
-.no-favorite {
-  margin-bottom: 11.6em;
+.full-width::ng-deep .mat-mdc-card-header-text {
+  width: 100%;
 }

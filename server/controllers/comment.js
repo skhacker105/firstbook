@@ -52,6 +52,7 @@ module.exports = {
         COMMENT
             .find({ user: userId })
             .populate('book')
+            .populate('product')
             .sort({ creationDate: -1 })
             .limit(5)
             .then((comments) => {

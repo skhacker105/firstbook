@@ -1,5 +1,6 @@
 const VALIDATOR = require('validator');
 const PASSPORT = require('passport');
+const HTTP = require('../utilities/http')
 const USER = require('mongoose').model('User');
 const RECEIPT = require('mongoose').model('Receipt');
 
@@ -148,9 +149,15 @@ module.exports = {
                     isAdmin: user.isAdmin,
                     username: user.username,
                     avatar: user.avatar,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    contact1: user.contact1,
+                    contact2: user.contact2,
+                    address: user.address,
                     commentsCount: user.commentsCount,
                     favoriteBooks: user.favoriteBooks,
-                    favoriteContacts: user.favoriteContacts
+                    favoriteContacts: user.favoriteContacts,
+                    isCommentsBlocked: user.isCommentsBlocked
                 };
 
                 return res.status(200).json({
@@ -177,6 +184,30 @@ module.exports = {
                     data: receipts
                 });
             });
+    },
+
+    updateProfile: (req, res) => {
+        let requesterId = req.user.id;
+        let requesterIsAdmin = req.user.isAdmin;
+        let userToChange = req.body.id;
+
+        if (requesterId !== userToChange && !requesterIsAdmin) {
+            return res.status(401).json({
+                message: 'You\'re not allowed to change other user avatar!'
+            });
+        }
+
+        USER.findById(userToChange).then((user) => {
+            if (!user) return HTTP.error(res, `User not found in our database`);
+
+            user.firstName = req.body.firstName;
+            user.lastName = req.body.lastName;
+            user.contact1 = req.body.contact1;
+            user.contact2 = req.body.contact2;
+            user.address = req.body.address;
+            user.save();
+            HTTP.success(res, user, 'User information updated successfully')
+        });
     },
 
     changeAvatar: (req, res) => {
@@ -217,6 +248,8 @@ module.exports = {
 
     blockComments: (req, res) => {
         let userId = req.params.userId;
+        let requesterIsAdmin = req.user.isAdmin;
+        if (!requesterIsAdmin) return HTTP.error(res, 'You are not authorized to perform this action')
 
         USER.findById(userId).then((user) => {
             if (!user) {
@@ -241,6 +274,8 @@ module.exports = {
 
     unblockComments: (req, res) => {
         let userId = req.params.userId;
+        let requesterIsAdmin = req.user.isAdmin;
+        if (!requesterIsAdmin) return HTTP.error(res, 'You are not authorized to perform this action')
 
         USER.findById(userId).then((user) => {
             if (!user) {

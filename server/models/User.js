@@ -9,6 +9,11 @@ const OBJECT_ID = MONGOOSE.Schema.Types.ObjectId;
 const USER_SCHEMA = MONGOOSE.Schema({
     username: { type: STRING, required: true, unique: true },
     email: { type: STRING, required: true, unique: true },
+    firstName: { type: STRING, default: '' },
+    lastName: { type: STRING, default: '' },
+    contact1: { type: STRING, default: '' },
+    contact2: { type: STRING, default: '' },
+    address: { type: STRING, default: '' },
     avatar: { type: STRING, default: 'https://i.imgur.com/4s5qLzU.png' },
     password: { type: STRING, required: true },
     salt: { type: STRING, required: true },
