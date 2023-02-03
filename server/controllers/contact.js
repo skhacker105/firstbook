@@ -76,7 +76,7 @@ module.exports = {
         CONTACT.findById(contactId).then((contact) => {
             if (!contact) return HTTP.error(res, 'There is no contact with the given id in our database.');
 
-            contact.appUserId = editedContact.appUserId;
+            editedContact.appUserId ? contact.appUserId = editedContact.appUserId : delete contact.appUserId;
             contact.title = editedContact.title;
             contact.firstName = editedContact.firstName;
             contact.lastName = editedContact.lastName;

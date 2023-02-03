@@ -5,11 +5,12 @@ const PRODUCT_CONTROLLER = require('../controllers/product');
 const PRODUCTSPECS_CONTROLLER = require('../controllers/product-spec');
 const COMMENT_CONTROLLER = require('../controllers/comment');
 const CART_CONTROLLER = require('../controllers/cart');
+const CHATROOM_CONTROLLER = require('../controllers/chatroom');
 const ERROR_CONTROLLER = require('../controllers/error');
-const STORAGE = require('../utilities/storage');
 const AUTH = require('./auth');
 
 module.exports = (APP) => {
+    // USER
     APP.post('/user/register', USER_CONTROLLER.register);
     APP.post('/user/login', USER_CONTROLLER.login);
     APP.get('/user/search', USER_CONTROLLER.search);
@@ -20,12 +21,14 @@ module.exports = (APP) => {
     APP.post('/user/blockComments/:userId', AUTH.isInRole('Admin'), USER_CONTROLLER.blockComments);
     APP.post('/user/unlockComments/:userId', AUTH.isInRole('Admin'), USER_CONTROLLER.unblockComments);
 
+    // CART
     APP.get('/cart/getSize', AUTH.isAuth, CART_CONTROLLER.getCartSize);
     APP.get('/user/cart', AUTH.isAuth, CART_CONTROLLER.getCart);
     APP.post('/user/cart/add/:bookId', AUTH.isAuth, CART_CONTROLLER.addToCart);
     APP.delete('/user/cart/delete/:bookId', AUTH.isAuth, CART_CONTROLLER.removeFromCart);
     APP.post('/user/cart/checkout', AUTH.isAuth, CART_CONTROLLER.checkout);
 
+    // BOOK
     APP.get('/book/search', BOOK_CONTROLLER.search);
     APP.get('/book/details/:bookId', BOOK_CONTROLLER.getSingle);
     APP.post('/book/add', AUTH.isInRole('Admin'), BOOK_CONTROLLER.add);
@@ -81,6 +84,13 @@ module.exports = (APP) => {
     APP.post('/comment/add/:bookId', AUTH.isAuth, COMMENT_CONTROLLER.add);
     APP.put('/comment/edit/:commentId', AUTH.isAuth, COMMENT_CONTROLLER.edit);
     APP.delete('/comment/delete/:commentId', AUTH.isAuth, COMMENT_CONTROLLER.delete);
+
+    // CHATROOM
+    APP.get('/chat/getAll', AUTH.isAuth, CHATROOM_CONTROLLER.getAllUserRooms);
+    APP.post('/chat/add', AUTH.isAuth, CHATROOM_CONTROLLER.add);
+    APP.put('/comment/edit/:roomId', AUTH.isAuth, CHATROOM_CONTROLLER.edit);
+    APP.delete('/comment/delete/:roomId', AUTH.isAuth, CHATROOM_CONTROLLER.delete);
+
 
     APP.all('*', ERROR_CONTROLLER.error);
 };
