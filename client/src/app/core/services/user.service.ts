@@ -24,6 +24,7 @@ const getPurchaseHistoryEndpoint = baseUrl + '/purchaseHistory';
 const changeAvatarEndpoint = baseUrl + '/changeAvatar';
 const blockCommentsEndpoint = baseUrl + '/blockComments/';
 const unblockCommentsEndpoint = baseUrl + '/unlockComments/';
+const userSearchEndpoint = baseUrl + '/search';
 
 @Injectable({
   providedIn: 'root'
@@ -96,5 +97,9 @@ export class UserService {
 
   unblockComments(id: string): Observable<ServerResponse<object>> {
     return this.http.post<ServerResponse<object>>(unblockCommentsEndpoint + id, {});
+  }
+
+  search(query: string): Observable<ServerResponse<User[]>> {
+    return this.http.get<ServerResponse<User[]>>(userSearchEndpoint + query);
   }
 }

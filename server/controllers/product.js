@@ -430,7 +430,6 @@ module.exports = {
                     .skip(searchParams.skip)
                     .limit(searchParams.limit)
                     .then((result) => {
-                        console.log('result = ', result);
                         result = result.map(r => r._id);
                         return res.status(200).json({
                             message: '',

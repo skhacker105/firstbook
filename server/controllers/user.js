@@ -4,6 +4,8 @@ const HTTP = require('../utilities/http')
 const USER = require('mongoose').model('User');
 const RECEIPT = require('mongoose').model('Receipt');
 
+const PAGE_LIMIT = 15;
+
 function validateRegisterForm(payload) {
     let errors = {};
     let isFormValid = true;
@@ -296,5 +298,54 @@ module.exports = {
                 message: 'Something went wrong, please try again.'
             });
         });
+    },
+
+    search: (req, res) => {
+        let params = req.query;
+        let searchParams = {
+            query: {},
+            sort: { creationDate: -1 },
+            skip: null,
+            limit: PAGE_LIMIT,
+        };
+
+        if (params.query || typeof params.query === 'string') {
+            let query = JSON.parse(params.query);
+            searchParams.query = { $text: { $search: `\"${query['searchTerm']}\"`, $language: 'en' } };
+        }
+
+        if (params.sort) {
+            searchParams.sort = JSON.parse(params.sort);
+        }
+
+        if (params.skip) {
+            searchParams.skip = JSON.parse(params.skip);
+        }
+
+        if (params.limit) {
+            searchParams.limit = JSON.parse(params.limit);
+        }
+
+        USER
+            .find(searchParams.query)
+            .count()
+            .then((count) => {
+                USER
+                    .find(searchParams.query)
+                    .sort(searchParams.sort)
+                    .skip(searchParams.skip)
+                    .limit(searchParams.limit)
+                    .then((result) => {
+                        return res.status(200).json({
+                            message: '',
+                            data: result,
+                            query: searchParams,
+                            itemsCount: count
+                        });
+                    })
+                    .catch(() => {
+                        return HTTP.error(res, 'Bad Request!');
+                    });
+            });
     }
 };

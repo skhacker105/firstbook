@@ -12,6 +12,7 @@ const AUTH = require('./auth');
 module.exports = (APP) => {
     APP.post('/user/register', USER_CONTROLLER.register);
     APP.post('/user/login', USER_CONTROLLER.login);
+    APP.get('/user/search', USER_CONTROLLER.search);
     APP.get('/user/profile/:username', AUTH.isAuth, USER_CONTROLLER.getProfile);
     APP.post('/user/profile/', AUTH.isAuth, USER_CONTROLLER.updateProfile);
     APP.get('/user/purchaseHistory', AUTH.isAuth, USER_CONTROLLER.getPurchaseHistory);

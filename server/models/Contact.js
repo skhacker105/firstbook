@@ -13,7 +13,7 @@ const CONTACT_SCHEMA = MONGOOSE.Schema({
     contact1: { type: STRING, default: '' },
     contact2: { type: STRING, default: '' },
     address: { type: STRING, default: '' },
-    appUserId: [{ type: OBJECT_ID, ref: 'User' }],
+    appUserId: { type: OBJECT_ID, ref: 'User' },
     createdBy: { type: OBJECT_ID, ref: 'User' },
     creationDate: { type: DATE, default: Date.now },
     currentRating: { type: NUMBER, default: 0 },

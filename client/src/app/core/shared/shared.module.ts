@@ -35,6 +35,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { ContactComponent } from './contact/contact.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
@@ -48,6 +51,7 @@ import { ImageViewComponent } from './image-view/image-view.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { ProductCommentComponent } from './product-comment/product-comment.component';
 import { AddEntityTriggerComponent } from './add-entity-trigger/add-entity-trigger.component';
+import { OptionDialogComponent } from './option-dialog/option-dialog.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +73,8 @@ import { AddEntityTriggerComponent } from './add-entity-trigger/add-entity-trigg
     ImageViewComponent,
     StarRatingComponent,
     ProductCommentComponent,
-    AddEntityTriggerComponent
+    AddEntityTriggerComponent,
+    OptionDialogComponent
   ],
   imports: [
     CommonModule,
@@ -90,7 +95,10 @@ import { AddEntityTriggerComponent } from './add-entity-trigger/add-entity-trigg
     CarouselModule,
     MatChipsModule,
     MatSlideToggleModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatAutocompleteModule,
+    MatListModule,
+    MatDividerModule
   ],
   exports: [
     CommentComponent,
@@ -125,7 +133,11 @@ import { AddEntityTriggerComponent } from './add-entity-trigger/add-entity-trigg
     StarRatingComponent,
     AddEntityTriggerComponent,
     MatSlideToggleModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatAutocompleteModule,
+    OptionDialogComponent,
+    MatListModule,
+    MatDividerModule
   ]
 })
 export class SharedModule { }

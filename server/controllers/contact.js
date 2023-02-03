@@ -33,6 +33,7 @@ module.exports = {
         let contactId = req.params.contactId;
 
         CONTACT.findById(contactId)
+            .populate('appUserId')
             .then((contact) => {
                 if (!contact) return HTTP.error(res, 'There is no contact with the given id in our database.');
 
@@ -55,7 +56,7 @@ module.exports = {
         // }
 
         CONTACT.create(contact).then((newContact) => {
-            return HTTP.success(res, newContact,  'Contact created successfully!');
+            return HTTP.success(res, newContact, 'Contact created successfully!');
         }).catch(err => HTTP.handleError(res, err));
     },
 
@@ -75,6 +76,7 @@ module.exports = {
         CONTACT.findById(contactId).then((contact) => {
             if (!contact) return HTTP.error(res, 'There is no contact with the given id in our database.');
 
+            contact.appUserId = editedContact.appUserId;
             contact.title = editedContact.title;
             contact.firstName = editedContact.firstName;
             contact.lastName = editedContact.lastName;
@@ -84,7 +86,7 @@ module.exports = {
             contact.address = editedContact.address;
             contact.save();
 
-            return HTTP.success(res, contact,  'Contact edited successfully!');
+            return HTTP.success(res, contact, 'Contact edited successfully!');
         }).catch(err => HTTP.handleError(res, err));
     },
 
@@ -94,7 +96,7 @@ module.exports = {
         CONTACT.findByIdAndRemove(contactId).then((deletedContact) => {
             if (!deletedContact) return HTTP.error(res, 'There is no contact with the given id in our database.');
 
-            return HTTP.success(res, deletedContact,  'Contact deleted successfully!');
+            return HTTP.success(res, deletedContact, 'Contact deleted successfully!');
         }).catch(err => HTTP.handleError(res, err));
     },
 
@@ -113,7 +115,7 @@ module.exports = {
         }
 
         CONTACT.findById(contactId).then((contact) => {
-            if (!contact)  return HTTP.error(res, 'There is no contact with the given id in our database.');
+            if (!contact) return HTTP.error(res, 'There is no contact with the given id in our database.');
 
             let ratedByIds = contact.ratedBy.map((id) => id.toString());
             if (ratedByIds.indexOf(userId) !== -1) {
@@ -126,7 +128,7 @@ module.exports = {
             contact.currentRating = contact.ratingPoints / contact.ratedCount;
             contact.save();
 
-            return HTTP.success(res, contact,  'You rated the contact successfully.');
+            return HTTP.success(res, contact, 'You rated the contact successfully.');
         }).catch(err => HTTP.handleError(res, err));
     },
 
@@ -134,7 +136,7 @@ module.exports = {
         let contactId = req.params.contactId;
 
         CONTACT.findById(contactId).then((contact) => {
-            if (!contact)  return HTTP.error(res, 'There is no contact with the given id in our database.');
+            if (!contact) return HTTP.error(res, 'There is no contact with the given id in our database.');
 
             USER.findById(req.user.id).then((user) => {
 
@@ -146,7 +148,7 @@ module.exports = {
                 user.favoriteContacts.push(contact._id);
                 user.save();
 
-                return HTTP.success(res, null,  'Successfully added the contact to your favorites list.');
+                return HTTP.success(res, null, 'Successfully added the contact to your favorites list.');
             });
         }).catch(err => HTTP.handleError(res, err));
     },

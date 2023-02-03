@@ -39,6 +39,15 @@ USER_SCHEMA.method({
     }
 });
 
+USER_SCHEMA.index({
+    username: 'text',
+    email: 'text',
+    firstName: 'text',
+    lastName: 'text',
+    contact1: 'text',
+    contact2: 'text'
+});
+
 const USER = MONGOOSE.model('User', USER_SCHEMA);
 
 module.exports = USER;

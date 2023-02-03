@@ -5,6 +5,22 @@
                 <mat-card-title>New Contact <br><br></mat-card-title>
             </mat-card-header>
             <mat-card-content>
+
+                <!-- Search Registered APP Users -->
+                <mat-form-field class="flexible-input">
+                    <mat-label>Regitered Users</mat-label>
+                    <input type="text" matInput placeholder="Search by name, username and phone numbers"
+                        formControlName="appUserId" [matAutocomplete]="auto">
+                    <mat-icon matSuffix *ngIf="createContactForm.controls['appUserId']?.value"
+                    (click)="createContactForm.controls['appUserId'].setValue('')">clear</mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionText"
+                    (optionSelected)="handleUserSelection()">
+                        <mat-option *ngFor="let option of userChangeSub$ | async" [value]="option">
+                            {{ option.username }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
                 <!-- Title -->
                 <mat-form-field class="flexible-input">
                     <mat-label>Title</mat-label>
