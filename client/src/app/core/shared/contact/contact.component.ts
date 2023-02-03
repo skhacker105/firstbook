@@ -35,6 +35,12 @@ export class ContactComponent {
       isDelete: false
     },
     {
+      maticon: 'note_add',
+      action: 'notes',
+      display: 'Notes',
+      isDelete: false
+    },
+    {
       maticon: 'delete_forever',
       action: 'delete',
       display: 'Delete',

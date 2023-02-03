@@ -13,7 +13,7 @@ export class IsAdminOrProfileOwnerGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return route.params['username'] === this.helperService.getProfile()?.username;
+    return this.helperService.getProfile()?.isAdmin || route.params['username'] === this.helperService.getProfile()?.username;
   }
   
 }
