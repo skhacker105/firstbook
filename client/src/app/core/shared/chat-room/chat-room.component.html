@@ -24,7 +24,7 @@
         <mat-drawer #drawer mode="side" hasBackdrop="false" position="end" [ngClass]="{
             'action-drawer': !chatRoom.inactive,
             'action-drawer-deleted': chatRoom.inactive
-        }" (openedChange)="actionDrawerOpen = $event">
+        }" (closedStart)="actionDrawerOpen = false" (openedStart)="actionDrawerOpen = true">
 
             <button mat-mini-fab class="action-drawer-action" [disabled]="chatRoom.inactive"
                 [routerLink]="['/chatroom/edit/', chatRoom.id]"><mat-icon>edit</mat-icon></button>
