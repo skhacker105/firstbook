@@ -27,6 +27,10 @@ const routes: Routes = [
     loadChildren: () => import('./components/inventory/inventory.module').then(m => m.InventoryModule)
   },
   {
+    path: 'chatroom',
+    loadChildren: () => import('./components/chat-room/chat-room.module').then(m => m.ChatRoomModule)
+  },
+  {
     path: 'home',
     component: HomeComponent
   },

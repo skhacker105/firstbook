@@ -28,7 +28,7 @@
     <form #formDir="ngForm" [formGroup]="createProductForm" (ngSubmit)="onSubmit()" class="form">
         <mat-card class="contact-card entity">
             <mat-card-header>
-                <mat-card-title>New Item <br><br></mat-card-title>
+                <mat-card-title>{{ id ? 'Edit': 'New' }}  Item <br><br></mat-card-title>
             </mat-card-header>
             <mat-card-content>
 

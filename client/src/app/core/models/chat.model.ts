@@ -5,7 +5,8 @@ export class ChatRoom {
         public _id: string,
         public roomKey: string,
         public name?: string,
-        public user?: User
+        public user?: User,
+        public inactive?: boolean
     ){}
 }
 
@@ -15,4 +16,15 @@ export class ChatMessage {
         public message: string,
         public room?: ChatRoom
     ) {}
+}
+
+export class ChatRoomUsers {
+    constructor(
+        public id: string,
+        public roomKey: string,
+        public shares: ChatRoom[],
+        public deletedShares?: ChatRoom[],
+        public name?: string,
+        public inactive?: boolean
+    ){}
 }

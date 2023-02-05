@@ -38,6 +38,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ContactComponent } from './contact/contact.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
@@ -52,6 +53,7 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
 import { ProductCommentComponent } from './product-comment/product-comment.component';
 import { AddEntityTriggerComponent } from './add-entity-trigger/add-entity-trigger.component';
 import { OptionDialogComponent } from './option-dialog/option-dialog.component';
+import { ChatRoomComponent } from './chat-room/chat-room.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,8 @@ import { OptionDialogComponent } from './option-dialog/option-dialog.component';
     StarRatingComponent,
     ProductCommentComponent,
     AddEntityTriggerComponent,
-    OptionDialogComponent
+    OptionDialogComponent,
+    ChatRoomComponent
   ],
   imports: [
     CommonModule,
@@ -98,7 +101,8 @@ import { OptionDialogComponent } from './option-dialog/option-dialog.component';
     MatToolbarModule,
     MatAutocompleteModule,
     MatListModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSidenavModule
   ],
   exports: [
     CommentComponent,
@@ -137,7 +141,9 @@ import { OptionDialogComponent } from './option-dialog/option-dialog.component';
     MatAutocompleteModule,
     OptionDialogComponent,
     MatListModule,
-    MatDividerModule
+    MatDividerModule,
+    ChatRoomComponent,
+    MatSidenavModule
   ]
 })
 export class SharedModule { }

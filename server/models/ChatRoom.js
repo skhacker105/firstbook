@@ -2,11 +2,13 @@ const MONGOOSE = require('mongoose');
 
 const STRING = MONGOOSE.Schema.Types.String;
 const OBJECT_ID = MONGOOSE.Schema.Types.ObjectId;
+const BOOLEAN = MONGOOSE.Schema.Types.Boolean;
 
 const CHATROOM_SCHEMA = MONGOOSE.Schema({
-    name: { type: STRING },
+    name: { type: STRING, required: true },
     user: { type: OBJECT_ID, ref: 'User' },
-    roomKey: { type: STRING, required: true }
+    roomKey: { type: STRING, required: true },
+    inactive: { type: BOOLEAN }
 });
 
 CHATROOM_SCHEMA.index({

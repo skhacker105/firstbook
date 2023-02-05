@@ -86,10 +86,13 @@ module.exports = (APP) => {
     APP.delete('/comment/delete/:commentId', AUTH.isAuth, COMMENT_CONTROLLER.delete);
 
     // CHATROOM
+    APP.get('/chat/getAlLinkedChatlRoom/:roomId', AUTH.isAuth, CHATROOM_CONTROLLER.getAlLinkedChatlRoom);
+    APP.get('/chat/getSingle/:roomId', AUTH.isAuth, CHATROOM_CONTROLLER.getSingle);
     APP.get('/chat/getAll', AUTH.isAuth, CHATROOM_CONTROLLER.getAllUserRooms);
     APP.post('/chat/add', AUTH.isAuth, CHATROOM_CONTROLLER.add);
-    APP.put('/comment/edit/:roomId', AUTH.isAuth, CHATROOM_CONTROLLER.edit);
-    APP.delete('/comment/delete/:roomId', AUTH.isAuth, CHATROOM_CONTROLLER.delete);
+    APP.put('/chat/edit/:roomId', AUTH.isAuth, CHATROOM_CONTROLLER.edit);
+    APP.delete('/chat/delete/:roomId', AUTH.isAuth, CHATROOM_CONTROLLER.delete);
+    APP.delete('/chat/undelete/:roomId', AUTH.isAuth, CHATROOM_CONTROLLER.undelete);
 
 
     APP.all('*', ERROR_CONTROLLER.error);
